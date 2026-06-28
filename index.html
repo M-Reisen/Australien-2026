@@ -1438,6 +1438,19 @@ function startDictation(){
     _recognition = null;
   }
 }
+// ── API KEY ───────────────────────────────────────────────────────────────
+function saveApiKey(){
+  var k = document.getElementById("apikey-input").value.trim();
+  if(!k || k.length < 20){ toast("Bitte gueltigen Key eingeben."); return; }
+  _apiKey = k;
+  document.getElementById("apikey-overlay").style.display = "none";
+  document.getElementById("apikey-input").value = "";
+  toast("API-Key gesetzt — nur fuer diese Sitzung.");
+}
+function skipApiKey(){
+  document.getElementById("apikey-overlay").style.display = "none";
+}
+
 // ── EDIT MODE ─────────────────────────────────────────────────────────────
 function toggleEditMode() {
   if(editMode) {
@@ -1472,10 +1485,7 @@ function checkEditPin(){
     buildDaySlides();
     toast("Admin-Modus aktiv!");
     if(!_apiKey){
-      setTimeout(function(){
-        var k = prompt("API-Key eingeben (nur für diese Sitzung im Speicher):");
-        if(k && k.trim().length > 20) { _apiKey = k.trim(); toast("API-Key gesetzt."); }
-      }, 400);
+      document.getElementById("apikey-overlay").style.display = "flex";
     }
   } else {
     document.getElementById("ep-err").textContent="Falsche PIN.";
@@ -1653,6 +1663,20 @@ showTab('tage');
       <button onclick="polishReviewText()" style="padding:8px 14px;background:var(--reef);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">✨ Verschönern</button>
       <button onclick="saveReview()" style="flex:1;padding:8px 14px;background:var(--sunset);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-weight:600;font-size:.86rem;cursor:pointer;">✓ Speichern</button>
     </div>
+  </div>
+</div>
+<!-- API Key Overlay -->
+<div id="apikey-overlay" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.72);z-index:600;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:340px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <div style="font-size:1.6rem;text-align:center;margin-bottom:10px;">🔑</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:6px;text-align:center;">API-Key eingeben</div>
+    <div style="font-size:.78rem;color:var(--fog);margin-bottom:16px;text-align:center;line-height:1.5;">Nur für diese Sitzung im Speicher.<br>Wird nicht gespeichert oder übertragen.</div>
+    <input id="apikey-input" type="password" placeholder="sk-ant-api03-..." style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;background:var(--paper);margin-bottom:14px;">
+    <div style="display:flex;gap:10px;">
+      <button onclick="skipApiKey()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;font-family:'Inter',sans-serif;cursor:pointer;color:var(--fog);font-size:.84rem;">Später</button>
+      <button onclick="saveApiKey()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;font-size:.88rem;">✓ Speichern</button>
+    </div>
+    <div style="margin-top:12px;font-size:.7rem;color:var(--fog);text-align:center;">Key erstellen: <strong>console.anthropic.com</strong></div>
   </div>
 </div>
 </body>
