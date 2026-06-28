@@ -85,7 +85,10 @@ main{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
 .photo-del{display:none;position:absolute;top:-6px;right:-6px;background:#dc2626;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;cursor:pointer;align-items:center;justify-content:center;z-index:3;line-height:1;padding:0;}
 .photo-thumb{width:80px;height:80px;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .photo-thumb:hover{transform:scale(1.06);}
-.photo-thumb:hover{transform:scale(1.06);}
+.photo-item{display:inline-flex;flex-direction:column;align-items:center;gap:4px;vertical-align:top;}
+.photo-caption{font-size:.65rem;color:var(--fog);text-align:center;max-width:80px;word-break:break-word;line-height:1.3;min-height:14px;cursor:pointer;}
+.photo-caption-input{font-size:.65rem;width:80px;border:1px solid rgba(28,26,22,.2);border-radius:4px;padding:2px 4px;font-family:'Inter',sans-serif;text-align:center;background:var(--paper);}
+.photo-caption-input:focus{outline:none;border-color:var(--sunset);}
 .photo-add{width:80px;height:80px;border-radius:8px;border:2px dashed rgba(28,26,22,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;color:var(--fog);gap:4px;transition:all .18s;background:var(--paper);}
 .photo-add:hover{border-color:var(--sunset);color:var(--sunset);background:#fff8f4;}
 .photo-add-icon{font-size:1.4rem;}
@@ -104,11 +107,19 @@ main{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
 .badge-tour-s{background:#fce7f3;color:#9d174d;}
 
 /* Lightbox */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;align-items:center;justify-content:center;}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;flex-direction:column;}
 .lightbox.open{display:flex;}
-.lightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
-.lightbox-close{position:absolute;top:16px;right:20px;color:#fff;font-size:1.8rem;cursor:pointer;background:none;border:none;opacity:.7;}
-.lightbox-close:hover{opacity:1;}
+.lightbox-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;color:#fff;flex-shrink:0;}
+.lightbox-counter{font-size:.82rem;color:rgba(255,255,255,.6);}
+.lightbox-close{color:#fff;font-size:1.6rem;cursor:pointer;background:none;border:none;opacity:.8;padding:0;}
+.lightbox-track{display:flex;flex:1;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.lightbox-track::-webkit-scrollbar{display:none;}
+.lightbox-slide{min-width:100vw;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;padding:10px;}
+.lightbox-slide img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:6px;}
+.lightbox-caption{text-align:center;color:rgba(255,255,255,.7);font-size:.8rem;padding:10px 20px;flex-shrink:0;min-height:36px;}
+.lightbox-nav{display:flex;justify-content:center;gap:6px;padding:8px;flex-shrink:0;}
+.lightbox-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.lightbox-dot.active{background:#fff;}
 
 /* TIMELINE */
 .route-header{margin-bottom:22px;}
@@ -253,14 +264,17 @@ textarea{resize:vertical;min-height:100px;}
   .day-card-header,.day-entry-area,.photo-strip{padding-left:16px;padding-right:16px;}
 }
 
-.hotel-banner{width:100%;height:150px;overflow:hidden;border-bottom:1px solid rgba(28,26,22,.07);position:relative;flex-shrink:0;}
-.hotel-banner-inner{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
+.hotel-banner{width:100%;height:180px;overflow:hidden;border-bottom:1px solid rgba(28,26,22,.07);position:relative;flex-shrink:0;display:block;}
+.hotel-banner-inner{display:flex;height:180px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
 .hotel-banner-inner::-webkit-scrollbar{display:none;}
-.hotel-banner-slide{min-width:100%;height:100%;flex-shrink:0;scroll-snap-align:start;}
-.hotel-banner-slide img{width:100%;height:100%;object-fit:cover;display:block;}
-.hotel-banner-placeholder{width:100%;height:150px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
-.hotel-banner-name{font-family:'Playfair Display',serif;font-size:1rem;color:rgba(255,255,255,.9);font-weight:700;text-align:center;padding:0 16px;}
-.hotel-banner-loc{font-size:.72rem;color:rgba(255,255,255,.6);text-align:center;}
+.hotel-banner-slide{min-width:100%;width:100%;height:180px;flex-shrink:0;scroll-snap-align:start;overflow:hidden;}
+.hotel-banner-slide img{width:100%;height:180px;object-fit:cover;object-position:center;display:block;}
+.hotel-banner-placeholder{width:100%;height:180px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;position:relative;overflow:hidden;}
+.hotel-banner-placeholder::before{content:"";position:absolute;inset:0;background:inherit;filter:blur(0px);}
+.hotel-banner-name{font-family:'Playfair Display',serif;font-size:1.05rem;color:#fff;font-weight:700;text-align:center;padding:0 20px;text-shadow:0 2px 8px rgba(0,0,0,.5);position:relative;z-index:1;line-height:1.3;}
+.hotel-banner-loc{font-size:.72rem;color:rgba(255,255,255,.75);text-align:center;position:relative;z-index:1;letter-spacing:.04em;}
+.hotel-banner-emoji-bg{font-size:3.5rem;opacity:.25;position:absolute;bottom:-8px;right:10px;z-index:0;line-height:1;}
+.hotel-banner-nights{font-size:.68rem;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:10px;margin-top:2px;position:relative;z-index:1;backdrop-filter:blur(4px);}
 .hotel-btn{position:absolute;padding:4px 10px;font-size:.72rem;border:none;border-radius:8px;cursor:pointer;backdrop-filter:blur(4px);}
 .hotel-add-btn{bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;}
 .hotel-del-btn{top:8px;right:8px;background:rgba(220,38,38,.8);color:#fff;border-radius:50%;width:24px;height:24px;padding:0;display:flex;align-items:center;justify-content:center;}
@@ -281,6 +295,19 @@ textarea{resize:vertical;min-height:100px;}
 .hotel-review-empty{font-size:.82rem;color:var(--fog);font-style:italic;}
 .hotel-review-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px;}
 
+
+/* Gallery */
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.photo-cell{position:relative;width:100%;height:110px;overflow:hidden;background:#e8e0d4;cursor:pointer;}
+.photo-cell img{width:100%;height:110px;object-fit:cover;display:block;transition:transform .15s;}
+.photo-cell:active img{transform:scale(.97);}
+.photo-cell-del{display:none;position:absolute;top:4px;right:4px;background:rgba(220,38,38,.85);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;align-items:center;justify-content:center;z-index:3;line-height:1;}
+.photo-cell-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.52);color:#fff;font-size:.6rem;padding:3px 5px;line-height:1.3;text-align:center;}
+.photo-cell-edit{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.45);color:#fff;border:none;border-radius:6px;padding:2px 6px;font-size:.6rem;cursor:pointer;z-index:3;}
+.photo-add-cell{height:110px;border:2px dashed rgba(28,26,22,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--paper);gap:4px;font-size:.65rem;color:var(--fog);}
+.photo-add-cell:hover{border-color:var(--sunset);color:var(--sunset);}
+.photo-add-cell-icon{font-size:1.4rem;}
+.photo-count{font-size:.7rem;color:var(--fog);padding:4px 0 2px;text-align:right;}
 </style>
 </head>
 <body>
@@ -299,7 +326,7 @@ textarea{resize:vertical;min-height:100px;}
   <div class="hero-eyebrow">Queensland & Great Barrier Reef</div>
   <h1>Das große<br><em>Australien</em>-Abenteuer</h1>
   <div class="hero-dates">13. September – 10. Oktober 2026</div>
-  <div class="hero-sub">Cairns · Port Douglas · Magnetic Island · Whitsundays · Brisbane · Sydney</div>
+  <div class="hero-sub">Port Douglas · Yungaburra · Undara · Townsville · Magnetic Island · Airlie Beach · Whitsundays · Cape Hillsborough · Eungella · Brisbane · Sydney</div>
   <div class="hero-stats">
     <div class="hero-stat"><span class="num">27</span><span class="lbl">Tage</span></div>
     <div class="hero-stat"><span class="num">11</span><span class="lbl">Unterkünfte</span></div>
@@ -477,9 +504,17 @@ textarea{resize:vertical;min-height:100px;}
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close">✕</button>
-  <img id="lightbox-img" src="" alt="">
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-header">
+    <div class="lightbox-counter" id="lb-counter"></div>
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  </div>
+  <div class="lightbox-track" id="lb-track"></div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:6px 16px;min-height:40px;">
+    <div class="lightbox-caption" id="lb-caption" style="flex:1;text-align:center;padding:0;"></div>
+    <button id="lb-edit-btn" onclick="openLBCaption()" style="display:none;background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:5px 10px;font-size:.75rem;cursor:pointer;flex-shrink:0;">✏️ Kommentar</button>
+  </div>
+  <div class="lightbox-nav" id="lb-nav"></div>
 </div>
 
 <div id="toast"></div>
@@ -558,6 +593,7 @@ let currentDay = 0;
 let entries = [];
 let photos = {}; // keyed by iso date, array of base64 strings
 let hotelPhotos = {}; // keyed by bookingId
+let photoComments = {}; // {iso_idx: 'comment'}
 let hotelReviews = {}; // {bid: {stars:0, text:''}}
 let dayExpenses = {}; // keyed by iso date
 let editMode = false;
@@ -617,52 +653,69 @@ function buildDaySlides() {
 }
 
 function buildDayHTML(day, i) {
-  const d = new Date(day.iso+'T12:00:00');
-  const dateLabel = d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const loc = day.stay ? day.stay.loc : (day.dayItems.length ? '✈️ Reisetag' : '–');
+  var d = new Date(day.iso+'T12:00:00');
+  var dateLabel = d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  var loc = day.stay ? day.stay.loc : (day.dayItems.length ? 'Reisetag' : '-');
 
   // Transport & tour badges
-  const badges = day.dayItems.map(t => {
-    if(t.type==='transport') {
-      const cls = {flight:'badge-flight-s',bus:'badge-bus-s',car:'badge-car-s',ferry:'badge-ferry-s'}[t.cls]||'badge-bus-s';
-      return `<span class="day-transport-badge ${cls}">${t.icon} ${t.name.split('·')[0].trim()}</span>`;
+  var badges = day.dayItems.map(function(t){
+    if(t.type==='transport'){
+      var cls = {flight:'badge-flight-s',bus:'badge-bus-s',car:'badge-car-s',ferry:'badge-ferry-s'}[t.cls]||'badge-bus-s';
+      return '<span class="day-transport-badge '+cls+'">'+t.icon+' '+t.name.split('·')[0].trim()+'</span>';
     }
-    if(t.type==='tour') {
-      const a=ACTIVITIES.find(x=>x.id===t.ref);
-      return a?`<span class="day-transport-badge badge-tour-s">${a.emoji} ${a.name.split('·')[0].trim()}</span>`:'';
+    if(t.type==='tour'){
+      var a=null;
+      for(var ai=0;ai<ACTIVITIES.length;ai++){if(ACTIVITIES[ai].id===t.ref){a=ACTIVITIES[ai];break;}}
+      return a?'<span class="day-transport-badge badge-tour-s">'+a.emoji+' '+a.name.split('·')[0].trim()+'</span>':'';
     }
     return '';
   }).filter(Boolean).join('');
 
   // Entry text
-  const entry = entries.find(e=>e.datum===day.iso);
-  const entryHTML = entry
-    ? `<div class="day-entry-text">${entry.text}</div>
-       <button class="btn btn-ghost btn-sm" style="color:var(--fog);border-color:rgba(0,0,0,.18);margin-top:4px" onclick="openModal(${entry.id})">📖 Volltext lesen</button>`
-    : `<div class="day-entry-empty">Noch kein Eintrag für diesen Tag.</div>
-       <button class="btn btn-primary btn-sm" onclick="startEntryForDate('${day.iso}')">✍️ Eintrag schreiben</button>`;
+  var entry = null;
+  for(var ei=0;ei<entries.length;ei++){if(entries[ei].datum===day.iso){entry=entries[ei];break;}}
+  var entryHTML;
+  if(entry){
+    entryHTML = '<div class="day-entry-text">'+entry.text+'</div>'
+      +'<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;">'
+      +'<button class="btn btn-ghost btn-sm" style="color:var(--fog);border-color:rgba(0,0,0,.18);" onclick="openModal('+entry.id+')">Volltext</button>'
+      +(editMode?'<button class="btn btn-primary btn-sm" onclick="editEntry('+entry.id+')">Bearbeiten</button>'
+               +'<button class="btn btn-ghost btn-sm" style="color:#dc2626;border-color:#dc2626;" onclick="delEntry('+entry.id+')">Loeschen</button>':'')
+      +'</div>';
+  } else {
+    entryHTML = '<div class="day-entry-empty">Noch kein Eintrag fuer diesen Tag.</div>'
+      +(editMode?'<button class="btn btn-primary btn-sm" data-iso="'+day.iso+'" onclick="startEntryEl(this)">Eintrag schreiben</button>':"")
+  }
 
-  // Photos
-  const dayPhotos = photos[day.iso] || [];
-  const photoHTML = dayPhotos.map((src,pi) =>
-    `<img class="photo-thumb" src="${src}" onclick="openLightbox('${day.iso}',${pi})" alt="Foto">`
-  ).join('') +
-  `<label class="photo-add" title="Foto hinzufügen">
-    <span class="photo-add-icon">📷</span>
-    <span>Foto</span>
-    <input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,'${day.iso}')">
-  </label>`;
+  // Photos - gallery
+  var dayPhotos = photos[day.iso] || [];
+  var maxPhotos = 20;
+  var photoItemsHTML = dayPhotos.map(function(src,pi){
+    var key = day.iso+'_'+pi;
+    var caption = photoComments[key] || '';
+    return '<div class="photo-cell" data-iso="'+day.iso+'" data-idx="'+pi+'">'
+      +'<img src="'+src+'" data-iso="'+day.iso+'" data-idx="'+pi+'" onclick="openLB(this)" alt="Foto">'
+      +(editMode?'<button class="photo-cell-del" style="display:flex" data-iso="'+day.iso+'" data-idx="'+pi+'" onclick="delPhotoEl(this)">✕</button>':'')
+      +(caption?'<div class="photo-cell-caption">'+caption+'</div>':'')
+      +(editMode?'<button class="photo-cell-edit" data-iso="'+day.iso+'" data-idx="'+pi+'" onclick="openCaptionModal(this)">✏️</button>':'')
+      +'</div>';
+  }).join('');
+  var addPhotoBtn = (editMode && dayPhotos.length < maxPhotos)
+    ? '<label class="photo-add-cell"><span class="photo-add-cell-icon">📷</span><span>Foto</span><input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,\''+day.iso+'\')" style="display:none"></label>'
+    : '';
+  var countLabel = dayPhotos.length > 0 ? '<div class="photo-count">'+dayPhotos.length+'/'+maxPhotos+' Fotos</div>' : '';
+  var photoHTML = '<div class="photo-gallery">'+photoItemsHTML+addPhotoBtn+'</div>'+countLabel;
 
   // Hotel banner
   var hotelBannerHTML = "";
   if(day.stay) {
     var bid = day.stay.id;
     var hPhotos = hotelPhotos[bid] || [];
-    var bgMap = {bush:"linear-gradient(135deg,#1a3a0a,#2a5a1a)",ocean:"linear-gradient(135deg,#0a2a4a,#1a4a6a)",reef:"linear-gradient(135deg,#0a3a3a,#1a5a5a)",sunset:"linear-gradient(135deg,#3a1a0a,#5a2a0a)"};
+    var bgMap = {bush:"linear-gradient(160deg,#1a4010 0%,#2d6b1a 50%,#3a5c1a 100%)",ocean:"linear-gradient(160deg,#0a1f3a 0%,#0f3d6b 50%,#1a5580 100%)",reef:"linear-gradient(160deg,#043a2a 0%,#0a6b4a 50%,#0d9488 100%)",sunset:"linear-gradient(160deg,#2a0f05 0%,#7c2d0a 50%,#c4511a 100%)"};
     var bg = bgMap[day.stay.color] || "linear-gradient(135deg,#1a2a3a,#2a3a4a)";
     if(hPhotos.length > 0) {
       var slides = hPhotos.map(function(src,pi){
-        return "<div class=\"hotel-banner-slide\"><img src=\""+src+"\" data-bid=\""+bid+"\" data-idx=\""+pi+"\" onclick=\"openHotelLBEl(this)\" alt=\"Hotel\"></div>";
+        return "<div class=\"hotel-banner-slide\"><img src=\""+src+"\" data-bid=\""+bid+"\" data-idx=\""+pi+"\" onclick=\"openHotelLBEl(this)\" alt=\"Hotel\" style=\"width:100%;height:180px;object-fit:cover;object-position:center;display:block;\"></div>";
       }).join("");
       hotelBannerHTML = "<div class=\"hotel-banner\"><div class=\"hotel-banner-inner\">"+slides+"</div>"
         +(editMode?"<button class=\"hotel-btn hotel-add-btn\" data-bid=\""+bid+"\" onclick=\"addHotelPhotoEl(this)\">+ Foto</button>":"")
@@ -670,10 +723,11 @@ function buildDayHTML(day, i) {
         +"</div>";
     } else {
       hotelBannerHTML = "<div class=\"hotel-banner\"><div class=\"hotel-banner-placeholder\" style=\"background:"+bg+"\">"
-        +"<div style=\"font-size:2rem;\">"+day.stay.emoji+"</div>"
+        +"<div class=\"hotel-banner-emoji-bg\">"+day.stay.emoji+"</div>"
         +"<div class=\"hotel-banner-name\">"+day.stay.name+"</div>"
-        +"<div class=\"hotel-banner-loc\">"+day.stay.loc+"</div>"
-        +(editMode?"<button class=\"hotel-btn hotel-add-btn\" style=\"position:relative;bottom:auto;right:auto;margin-top:8px;\" data-bid=\""+bid+"\" onclick=\"addHotelPhotoEl(this)\">Foto hochladen</button>":"")
+        +"<div class=\"hotel-banner-loc\">📍 "+day.stay.loc+"</div>"
+        +"<div class=\"hotel-banner-nights\">"+day.stay.nights+" Nacht"+(day.stay.nights>1?"e":"")+"</div>"
+        +(editMode?"<button class=\"hotel-btn hotel-add-btn\" style=\"position:relative;bottom:auto;right:auto;margin-top:6px;\" data-bid=\""+bid+"\" onclick=\"addHotelPhotoEl(this)\">📷 Foto hochladen</button>":"")
         +"</div></div>";
     }
   }
@@ -786,33 +840,86 @@ function handlePhotos(event, iso) {
 function refreshPhotoGrid(iso) {
   var grid = document.getElementById('photo-grid-'+iso);
   if(!grid) return;
-  var dayPhotos = photos[iso]||[];
-  var thumbs = dayPhotos.map(function(src,pi){
-    return '<div class="photo-wrap"><img class="photo-thumb" src="'+src+'" data-iso="'+iso+'" data-idx="'+pi+'" onclick="openLB(this)" alt="Foto">'
-      +(editMode?'<button class="photo-del" style="display:flex" data-iso="'+iso+'" data-idx="'+pi+'" onclick="delPhotoEl(this)">x</button>':'')
-      +'</div>';
-  }).join('');
-  var addBtn = editMode ? ('<label class="photo-add"><span class="photo-add-icon">+</span><span>Foto</span>'
-    +'<input type="file" accept="image/*" multiple class="photo-input" data-iso="'+iso+'" onchange="handlePhotosEl(this)" style="display:none"></label>') : '';
-  grid.innerHTML = thumbs + addBtn;
+  buildDaySlides();
   toast('Foto gespeichert!');
 }
 
 function openLB(el){
   var iso = el.getAttribute('data-iso');
-  var idx = parseInt(el.getAttribute('data-idx')||'0');
-  var src = (photos[iso]||[])[idx] || el.src;
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox').classList.add('open');
+  var startIdx = parseInt(el.getAttribute('data-idx')||'0');
+  var allPhotos = photos[iso]||[];
+  openGalleryLB(iso, allPhotos, startIdx);
 }
 
+var _lbIso = '';
+var _lbIdx = 0;
+
+function openGalleryLB(iso, allPhotos, startIdx){
+  if(!allPhotos.length) return;
+  _lbIso = iso;
+  _lbIdx = startIdx;
+  var track = document.getElementById('lb-track');
+  var nav = document.getElementById('lb-nav');
+  track.innerHTML = '';
+  nav.innerHTML = '';
+  allPhotos.forEach(function(src, pi){
+    var slide = document.createElement('div');
+    slide.className = 'lightbox-slide';
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Foto';
+    slide.appendChild(img);
+    track.appendChild(slide);
+    var dot = document.createElement('div');
+    dot.className = 'lightbox-dot' + (pi===startIdx?' active':'');
+    dot.onclick = (function(i){ return function(){ scrollToLBSlide(i, iso, allPhotos.length); }; })(pi);
+    nav.appendChild(dot);
+  });
+  document.getElementById('lightbox').classList.add('open');
+  // Show edit button in admin mode
+  var editBtn = document.getElementById('lb-edit-btn');
+  if(editBtn) editBtn.style.display = editMode ? 'block' : 'none';
+  setTimeout(function(){
+    var slideW = track.offsetWidth;
+    track.scrollLeft = startIdx * slideW;
+    updateLBCaption(iso, startIdx, allPhotos.length);
+  }, 50);
+  track.onscroll = function(){
+    var idx = Math.round(track.scrollLeft / Math.max(track.offsetWidth,1));
+    if(idx !== _lbIdx){ _lbIdx = idx; updateLBCaption(iso, idx, allPhotos.length); }
+  };
+}
+
+
+function openLBCaption(){
+  if(!editMode || !_lbIso) return;
+  _captionKey = _lbIso + '_' + _lbIdx;
+  document.getElementById('caption-input').value = photoComments[_captionKey]||'';
+  document.getElementById('caption-modal').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('caption-input').focus(); }, 200);
+}
+
+function updateLBCaption(iso, idx, total){
+  document.getElementById('lb-counter').textContent = (idx+1)+' / '+total;
+  var key = iso+'_'+idx;
+  document.getElementById('lb-caption').textContent = photoComments[key]||'';
+  document.querySelectorAll('.lightbox-dot').forEach(function(d,i){
+    d.classList.toggle('active', i===idx);
+  });
+}
+
+function scrollToLBSlide(idx, iso, total){
+  var track = document.getElementById('lb-track');
+  track.scrollLeft = idx * track.offsetWidth;
+  updateLBCaption(iso, idx, total);
+}
 function openLightbox(iso, idx) {
   const src = (photos[iso]||[])[idx];
   if(!src) return;
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.getElementById('lb-track').innerHTML=''; }
 
 // ── TABS ──────────────────────────────────────────────────────────────────
 function showTab(tab) {
@@ -1225,6 +1332,19 @@ const TIPS = [
     food:"🍽️ Gus Cafe in South Brisbane: Brisbanes legendärstes Frühstücks-Café seit 1976. Abends: Teneriffe Brewing Co. für lokales Craft Beer und Blick auf die Story Bridge.",
     tip:'💡 City Hopper Fähre — kostenlos! Fährt alle 30 Min über den Brisbane River und verbindet South Bank, CBD, New Farm und Fortitude Valley. Der schönste Weg, die Stadt zu erkunden.',
   },
+  {
+    stop:'🦢 Sydney', dates:'9.–10. Okt.', color:'var(--ocean)',
+    mustdos:[
+      {title:'Sydney Opera House & Circular Quay', text:'Das Wahrzeichen Australiens von außen bestaunen und am Circular Quay entlangschlendern. Die Fähre von Manly nach Circular Quay bietet die spektakulärste Hafeneinfahrt der Welt — unbedingt machen!'},
+      {title:'Sydney Harbour Bridge', text:'Die Brücke zu Fuß oder per Rad überqueren ist kostenlos und bietet atemberaubende Aussichten auf Hafen und Opera House. Pylonpunkt-Aussichtsturm für noch bessere Fotos.'},
+      {title:'Bondi Beach', text:'Australiens berühmtester Strand — nur 20 Min vom Zentrum. Den Bondi to Coogee Coastal Walk (6 km) entlanggehen: spektakuläre Küstenlandschaft mit Blick auf den Pazifik.'},
+      {title:'The Rocks', text:'Sydneys ältestes Viertel mit gepflasterten Gassen, Pubs aus dem 19. Jahrhundert und tollem Wochenmarkt. Perfekt für den letzten Australien-Abend.'},
+      {title:'Taronga Zoo', text:'Per Fähre über den Hafen erreichbar — der Zoo liegt auf einem Hügel mit spektakulärem Blick auf die Skyline. Koalas, Wombats und exotische Tiere vor Postkarten-Kulisse.'},
+    ],
+    secret:'🤫 Geheimtipp: Shelly Beach in Manly — ruhige, schnorcheltaugliche Bucht hinter dem Manly Beach, kaum Touristen. Kombiniert mit der Fähre von Circular Quay ein perfekter letzter Australien-Morgen.',
+    food:'🍽️ Fish & Chips am Circular Quay mit Blick auf die Opera House. Abends: Restaurantviertel Surry Hills für die beste Küche Sydneys — von Thai bis Modern Australian.',
+    tip:'💡 Opal Card am Flughafen kaufen (ca. AUD 20) — gilt für alle Busse, Züge und Fähren in Sydney. Die Fähre zum Manly Beach und zurück kostet nur wenige Dollar und ist ein Erlebnis für sich.',
+  },
 ];
 
 function renderTips() {
@@ -1255,6 +1375,33 @@ function toggleTip(i){
   const open=body.style.display!=='none';
   body.style.display=open?'none':'block';
   arrow.style.transform=open?'':'rotate(180deg)';
+}
+
+function startEntryEl(btn){
+  startEntryForDate(btn.getAttribute("data-iso"));
+}
+
+// ── PHOTO CAPTIONS ────────────────────────────────────────────────────────
+var _captionKey = '';
+function openCaptionModal(btn){
+  _captionKey = btn.getAttribute('data-iso')+'_'+btn.getAttribute('data-idx');
+  document.getElementById('caption-input').value = photoComments[_captionKey]||'';
+  document.getElementById('caption-modal').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('caption-input').focus(); }, 200);
+}
+function saveCaption(){
+  var val = document.getElementById('caption-input').value.trim();
+  if(_captionKey) photoComments[_captionKey] = val;
+  document.getElementById('caption-modal').style.display = 'none';
+  // Update lightbox caption if open
+  if(document.getElementById('lightbox').classList.contains('open')){
+    document.getElementById('lb-caption').textContent = val;
+  }
+  buildDaySlides();
+  toast('Kommentar gespeichert!');
+}
+function closeCaptionModal(){
+  document.getElementById('caption-modal').style.display = 'none';
 }
 
 // ── HOTEL REVIEWS ────────────────────────────────────────────────────────
@@ -1384,7 +1531,6 @@ var _recognition = null;
 function startDictation(){
   var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SpeechRec){ toast("Diktierfunktion nicht verfuegbar."); return; }
-  // Stop if running
   if(_recognition){
     _recognition.stop();
     _recognition = null;
@@ -1393,27 +1539,31 @@ function startDictation(){
   }
   _recognition = new SpeechRec();
   _recognition.lang = "de-DE";
-  _recognition.continuous = true;
+  _recognition.continuous = false;
   _recognition.interimResults = false;
   _recognition.onresult = function(e){
-    var ta = document.getElementById("rev-text");
-    for(var i = e.resultIndex; i < e.results.length; i++){
-      if(e.results[i].isFinal){
-        var word = e.results[i][0].transcript;
-        ta.value = ta.value ? ta.value + " " + word : word;
-        toast("+" + word.substring(0,20));
-      }
+    var transcript = e.results[0][0].transcript;
+    if(transcript){
+      var ta = document.getElementById("rev-text");
+      ta.value = ta.value ? ta.value + " " + transcript : transcript;
+      toast("+" + transcript.substring(0,25));
+    }
+    // Neu starten fuer naechsten Satz
+    if(_recognition){
+      try{ _recognition.start(); } catch(ex){}
     }
   };
   _recognition.onerror = function(e){
-    if(e.error !== "no-speech") toast("Diktat Fehler: " + e.error);
-    _recognition = null;
-    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    if(e.error !== "no-speech") toast("Fehler: " + e.error);
+    if(e.error === "not-allowed"){
+      _recognition = null;
+      document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    }
   };
   _recognition.onend = function(){
-    _recognition = null;
-    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    toast("Diktat beendet.");
+    if(_recognition === null){
+      document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    }
   };
   try{
     _recognition.start();
@@ -1421,7 +1571,7 @@ function startDictation(){
     toast("Sprechen...");
   } catch(e){
     _recognition = null;
-    toast("Mikrofon Fehler: " + e.message);
+    toast("Fehler: " + e.message);
   }
 }
 // ── API KEY ───────────────────────────────────────────────────────────────
@@ -1688,6 +1838,20 @@ showTab('tage');
     </div>
     <div style="margin-top:12px;font-size:.7rem;color:var(--fog);text-align:center;">Key erstellen: <strong>console.anthropic.com</strong></div>
     <div style="margin-top:8px;text-align:center;"><button onclick="deleteApiKey()" style="background:none;border:none;font-size:.7rem;color:#dc2626;cursor:pointer;text-decoration:underline;">Gespeicherten Key loeschen</button></div>
+  </div>
+</div>
+<!-- Caption Modal -->
+<div id="caption-modal" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.7);z-index:500;align-items:flex-end;justify-content:center;padding:0;" onclick="if(event.target===this)closeCaptionModal()">
+  <div style="background:#fff;border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px;box-shadow:0 -8px 32px rgba(0,0,0,.2);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;">Foto-Kommentar</div>
+      <button onclick="closeCaptionModal()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--fog);">✕</button>
+    </div>
+    <input id="caption-input" type="text" placeholder="z.B. Sonnenaufgang am Whitehaven Beach..." style="width:100%;padding:10px 14px;border:1.5px solid rgba(28,26,22,.15);border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;background:var(--paper);margin-bottom:12px;">
+    <div style="display:flex;gap:10px;">
+      <button onclick="closeCaptionModal()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;font-family:'Inter',sans-serif;cursor:pointer;color:var(--fog);">Abbrechen</button>
+      <button onclick="saveCaption()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;">✓ Speichern</button>
+    </div>
   </div>
 </div>
 </body>
