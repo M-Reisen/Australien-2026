@@ -1287,8 +1287,8 @@ async function genReviewEl(btn){
   document.getElementById("rev-hotel-name").textContent = hotel;
   document.getElementById("rev-text").value = existing;
   document.getElementById("rev-modal").style.display = "flex";
-  // Auto-generate if no text yet
-  if(!existing) generateReviewText(bid, hotel, starsText);
+  // Nicht automatisch generieren - User entscheidet
+  // if(!existing) generateReviewText(bid, hotel, starsText);
 }
 
 async function polishReviewText(){
@@ -1384,6 +1384,7 @@ var _recognition = null;
 function startDictation(){
   var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SpeechRec){ toast("Diktierfunktion nicht verfuegbar."); return; }
+  // Stop if running
   if(_recognition){
     _recognition.stop();
     _recognition = null;
@@ -1392,48 +1393,35 @@ function startDictation(){
   }
   _recognition = new SpeechRec();
   _recognition.lang = "de-DE";
-  _recognition.continuous = false;
+  _recognition.continuous = true;
   _recognition.interimResults = false;
   _recognition.onresult = function(e){
-    var transcript = "";
-    for(var i=0;i<e.results.length;i++){
-      transcript += e.results[i][0].transcript;
-    }
-    if(transcript){
-      var ta = document.getElementById("rev-text");
-      var cur = ta.value;
-      var newVal = cur ? cur + " " + transcript : transcript;
-      // iOS Safari fix: set value via native setter
-      var nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value");
-      if(nativeSetter && nativeSetter.set){
-        nativeSetter.set.call(ta, newVal);
-        ta.dispatchEvent(new Event("input", {bubbles:true}));
-      } else {
-        ta.value = newVal;
+    var ta = document.getElementById("rev-text");
+    for(var i = e.resultIndex; i < e.results.length; i++){
+      if(e.results[i].isFinal){
+        var word = e.results[i][0].transcript;
+        ta.value = ta.value ? ta.value + " " + word : word;
+        toast("+" + word.substring(0,20));
       }
-      toast("Erkannt: " + transcript.substring(0,30)+(transcript.length>30?"...":""));
     }
   };
   _recognition.onerror = function(e){
-    toast("Fehler: "+e.error);
+    if(e.error !== "no-speech") toast("Diktat Fehler: " + e.error);
     _recognition = null;
     document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
   };
   _recognition.onend = function(){
-    if(_recognition !== null){
-      // Auto-restart for continuous feel
-      try{ _recognition.start(); } catch(e){ _recognition=null; document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren"; }
-    } else {
-      document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    }
+    _recognition = null;
+    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    toast("Diktat beendet.");
   };
   try{
     _recognition.start();
     document.getElementById("rev-mic-btn").textContent = "⏹ Stop";
     toast("Sprechen...");
   } catch(e){
-    toast("Mikrofon Fehler: "+e.message);
     _recognition = null;
+    toast("Mikrofon Fehler: " + e.message);
   }
 }
 // ── API KEY ───────────────────────────────────────────────────────────────
