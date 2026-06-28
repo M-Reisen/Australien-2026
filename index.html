@@ -1340,12 +1340,15 @@ async function generateReviewText(bid, hotel, starsText){
 
 function saveReview(){
   var bid = document.getElementById("rev-bid").value;
+  if(!bid){ closeRevModal(); return; }
+  // Stop any running dictation first
+  if(_recognition){ _recognition.stop(); _recognition = null; }
   var text = document.getElementById("rev-text").value.trim();
   if(!hotelReviews[bid]) hotelReviews[bid]={stars:0,text:""};
   hotelReviews[bid].text = text;
   document.getElementById("rev-modal").style.display = "none";
   buildDaySlides();
-  toast("Bewertung gespeichert!");
+  toast(text ? "Bewertung gespeichert!" : "Gespeichert (kein Text).");
 }
 
 function closeRevModal(){
@@ -1366,26 +1369,47 @@ function dictateReviewEl(btn){
 var _recognition = null;
 function startDictation(){
   var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRec){ toast("Diktierfunktion nicht unterstuetzt."); return; }
-  if(_recognition) { _recognition.stop(); _recognition = null; return; }
+  if(!SpeechRec){ toast("Diktierfunktion nicht verfuegbar."); return; }
+  // Stop if already running
+  if(_recognition){
+    _recognition.stop();
+    return;
+  }
+  var ta = document.getElementById("rev-text");
   _recognition = new SpeechRec();
   _recognition.lang = "de-DE";
-  _recognition.continuous = false;
-  _recognition.interimResults = false;
+  _recognition.continuous = true;
+  _recognition.interimResults = true;
+  var _finalText = ta.value || "";
+  var _interimSpan = document.getElementById("rev-interim");
+  if(_interimSpan) _interimSpan.textContent = "";
   _recognition.onresult = function(e){
-    var transcript = e.results[0][0].transcript;
-    var ta = document.getElementById("rev-text");
-    ta.value = (ta.value ? ta.value+" " : "") + transcript;
-    toast("Diktat gespeichert!");
+    var interim = "";
+    for(var i = e.resultIndex; i < e.results.length; i++){
+      if(e.results[i].isFinal){
+        _finalText += ((_finalText && !_finalText.endsWith(" ")) ? " " : "") + e.results[i][0].transcript;
+        ta.value = _finalText;
+      } else {
+        interim += e.results[i][0].transcript;
+      }
+    }
+    if(_interimSpan) _interimSpan.textContent = interim ? "("+interim+")" : "";
   };
-  _recognition.onerror = function(e){ toast("Diktat Fehler: "+e.error); _recognition=null; };
-  _recognition.onend = function(){ 
+  _recognition.onerror = function(e){
+    if(e.error !== "no-speech") toast("Diktat Fehler: "+e.error);
     _recognition = null;
     document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    if(_interimSpan) _interimSpan.textContent = "";
+  };
+  _recognition.onend = function(){
+    _recognition = null;
+    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    if(_interimSpan) _interimSpan.textContent = "";
+    if(_finalText) toast("Diktat beendet — Text uebernommen.");
   };
   _recognition.start();
   document.getElementById("rev-mic-btn").textContent = "⏹ Stop";
-  toast("Diktierfunktion aktiv — sprechen...");
+  toast("Sprechen...");
 }
 
 // ── EDIT MODE ─────────────────────────────────────────────────────────────
@@ -1590,7 +1614,8 @@ showTab('tage');
     <input type="hidden" id="rev-bid">
     <label style="font-size:.72rem;color:var(--fog);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;">Bewertungstext</label>
     <textarea id="rev-text" rows="5" style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.86rem;background:var(--paper);resize:vertical;" placeholder="Bewertung eingeben oder generieren..."></textarea>
-    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+    <div id="rev-interim" style="font-size:.75rem;color:var(--fog);font-style:italic;min-height:16px;margin-top:4px;"></div>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
       <button id="rev-mic-btn" onclick="startDictation()" style="padding:8px 14px;background:var(--ocean);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">🎤 Diktieren</button>
       <button onclick="polishReviewText()" style="padding:8px 14px;background:var(--reef);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">✨ Verschönern</button>
       <button onclick="saveReview()" style="flex:1;padding:8px 14px;background:var(--sunset);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-weight:600;font-size:.86rem;cursor:pointer;">✓ Speichern</button>
