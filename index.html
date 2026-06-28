@@ -81,14 +81,8 @@ main{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
 .photo-strip{padding:14px 22px;border-bottom:1px solid rgba(28,26,22,.07);}
 .photo-strip-label{font-size:.72rem;font-weight:500;color:var(--fog);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
 .photo-grid{display:flex;gap:8px;flex-wrap:wrap;}
-.photo-wrap{position:relative;display:inline-block;}
-.photo-del{display:none;position:absolute;top:-6px;right:-6px;background:#dc2626;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;cursor:pointer;align-items:center;justify-content:center;z-index:3;line-height:1;padding:0;}
 .photo-thumb{width:80px;height:80px;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .photo-thumb:hover{transform:scale(1.06);}
-.photo-item{display:inline-flex;flex-direction:column;align-items:center;gap:4px;vertical-align:top;}
-.photo-caption{font-size:.65rem;color:var(--fog);text-align:center;max-width:80px;word-break:break-word;line-height:1.3;min-height:14px;cursor:pointer;}
-.photo-caption-input{font-size:.65rem;width:80px;border:1px solid rgba(28,26,22,.2);border-radius:4px;padding:2px 4px;font-family:'Inter',sans-serif;text-align:center;background:var(--paper);}
-.photo-caption-input:focus{outline:none;border-color:var(--sunset);}
 .photo-add{width:80px;height:80px;border-radius:8px;border:2px dashed rgba(28,26,22,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;color:var(--fog);gap:4px;transition:all .18s;background:var(--paper);}
 .photo-add:hover{border-color:var(--sunset);color:var(--sunset);background:#fff8f4;}
 .photo-add-icon{font-size:1.4rem;}
@@ -107,19 +101,11 @@ main{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
 .badge-tour-s{background:#fce7f3;color:#9d174d;}
 
 /* Lightbox */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;flex-direction:column;}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;align-items:center;justify-content:center;}
 .lightbox.open{display:flex;}
-.lightbox-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;color:#fff;flex-shrink:0;}
-.lightbox-counter{font-size:.82rem;color:rgba(255,255,255,.6);}
-.lightbox-close{color:#fff;font-size:1.6rem;cursor:pointer;background:none;border:none;opacity:.8;padding:0;}
-.lightbox-track{display:flex;flex:1;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
-.lightbox-track::-webkit-scrollbar{display:none;}
-.lightbox-slide{min-width:100vw;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;padding:10px;}
-.lightbox-slide img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:6px;}
-.lightbox-caption{text-align:center;color:rgba(255,255,255,.7);font-size:.8rem;padding:10px 20px;flex-shrink:0;min-height:36px;}
-.lightbox-nav{display:flex;justify-content:center;gap:6px;padding:8px;flex-shrink:0;}
-.lightbox-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
-.lightbox-dot.active{background:#fff;}
+.lightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.lightbox-close{position:absolute;top:16px;right:20px;color:#fff;font-size:1.8rem;cursor:pointer;background:none;border:none;opacity:.7;}
+.lightbox-close:hover{opacity:1;}
 
 /* TIMELINE */
 .route-header{margin-bottom:22px;}
@@ -264,29 +250,30 @@ textarea{resize:vertical;min-height:100px;}
   .day-card-header,.day-entry-area,.photo-strip{padding-left:16px;padding-right:16px;}
 }
 
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.photo-cell{position:relative;width:100%;height:110px;overflow:hidden;background:#e8e0d4;cursor:pointer;}
+.photo-cell img{width:100%;height:110px;object-fit:cover;display:block;}
+.photo-cell-del{display:none;position:absolute;top:4px;right:4px;background:rgba(220,38,38,.85);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;align-items:center;justify-content:center;z-index:3;line-height:1;}
+.photo-cell-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.52);color:#fff;font-size:.6rem;padding:3px 5px;line-height:1.3;text-align:center;}
+.photo-cell-edit{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.45);color:#fff;border:none;border-radius:6px;padding:2px 6px;font-size:.6rem;cursor:pointer;z-index:3;}
+.photo-add-cell{height:110px;border:2px dashed rgba(28,26,22,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--paper);gap:4px;font-size:.65rem;color:var(--fog);}
+.photo-add-cell-icon{font-size:1.4rem;}
+.photo-count{font-size:.7rem;color:var(--fog);padding:4px 0 2px;text-align:right;}
+.photo-wrap{position:relative;display:inline-block;}
+.photo-del{display:none;position:absolute;top:-6px;right:-6px;background:#dc2626;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:.68rem;cursor:pointer;align-items:center;justify-content:center;z-index:3;line-height:1;padding:0;}
 .hotel-banner{width:100%;height:180px;overflow:hidden;border-bottom:1px solid rgba(28,26,22,.07);position:relative;flex-shrink:0;display:block;}
 .hotel-banner-inner{display:flex;height:180px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
 .hotel-banner-inner::-webkit-scrollbar{display:none;}
 .hotel-banner-slide{min-width:100%;width:100%;height:180px;flex-shrink:0;scroll-snap-align:start;overflow:hidden;}
 .hotel-banner-slide img{width:100%;height:180px;object-fit:cover;object-position:center;display:block;}
 .hotel-banner-placeholder{width:100%;height:180px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;position:relative;overflow:hidden;}
-.hotel-banner-placeholder::before{content:"";position:absolute;inset:0;background:inherit;filter:blur(0px);}
 .hotel-banner-name{font-family:'Playfair Display',serif;font-size:1.05rem;color:#fff;font-weight:700;text-align:center;padding:0 20px;text-shadow:0 2px 8px rgba(0,0,0,.5);position:relative;z-index:1;line-height:1.3;}
-.hotel-banner-loc{font-size:.72rem;color:rgba(255,255,255,.75);text-align:center;position:relative;z-index:1;letter-spacing:.04em;}
+.hotel-banner-loc{font-size:.72rem;color:rgba(255,255,255,.75);text-align:center;position:relative;z-index:1;}
 .hotel-banner-emoji-bg{font-size:3.5rem;opacity:.25;position:absolute;bottom:-8px;right:10px;z-index:0;line-height:1;}
-.hotel-banner-nights{font-size:.68rem;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:10px;margin-top:2px;position:relative;z-index:1;backdrop-filter:blur(4px);}
-.hotel-btn{position:absolute;padding:4px 10px;font-size:.72rem;border:none;border-radius:8px;cursor:pointer;backdrop-filter:blur(4px);}
+.hotel-banner-nights{font-size:.68rem;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:10px;margin-top:2px;position:relative;z-index:1;}
+.hotel-btn{position:absolute;padding:4px 10px;font-size:.72rem;border:none;border-radius:8px;cursor:pointer;}
 .hotel-add-btn{bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;}
 .hotel-del-btn{top:8px;right:8px;background:rgba(220,38,38,.8);color:#fff;border-radius:50%;width:24px;height:24px;padding:0;display:flex;align-items:center;justify-content:center;}
-
-.cost-group-total{display:flex;justify-content:space-between;font-weight:600;font-size:.85rem;padding:8px 0 4px;border-top:1px solid rgba(28,26,22,.15);margin-top:4px;}
-.day-costs-section{margin-top:14px;border-top:1px solid rgba(28,26,22,.08);padding-top:12px;}
-.day-costs-title{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fog);margin-bottom:8px;}
-.day-cost-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(28,26,22,.05);font-size:.84rem;gap:8px;}
-.day-cost-cat{display:flex;align-items:center;gap:6px;color:#3a2d22;}
-.day-cost-add{background:none;border:1.5px dashed rgba(28,26,22,.2);border-radius:8px;padding:6px 12px;font-size:.78rem;color:var(--fog);cursor:pointer;width:100%;text-align:left;margin-top:6px;}
-.day-cost-add:hover{border-color:var(--sunset);color:var(--sunset);}
-.day-cost-total{font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;padding-top:7px;margin-top:4px;border-top:1px solid rgba(28,26,22,.12);}
 .hotel-review{padding:12px 18px;border-bottom:1px solid rgba(28,26,22,.07);background:#faf7f2;}
 .hotel-review-stars{display:flex;gap:4px;margin-bottom:8px;}
 .star-btn{background:none;border:none;font-size:1.4rem;cursor:pointer;padding:0;line-height:1;opacity:.3;transition:opacity .15s;}
@@ -294,20 +281,28 @@ textarea{resize:vertical;min-height:100px;}
 .hotel-review-text{font-size:.86rem;line-height:1.7;color:#3a2d22;white-space:pre-wrap;margin-bottom:8px;}
 .hotel-review-empty{font-size:.82rem;color:var(--fog);font-style:italic;}
 .hotel-review-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px;}
-
-
-/* Gallery */
-.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
-.photo-cell{position:relative;width:100%;height:110px;overflow:hidden;background:#e8e0d4;cursor:pointer;}
-.photo-cell img{width:100%;height:110px;object-fit:cover;display:block;transition:transform .15s;}
-.photo-cell:active img{transform:scale(.97);}
-.photo-cell-del{display:none;position:absolute;top:4px;right:4px;background:rgba(220,38,38,.85);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;align-items:center;justify-content:center;z-index:3;line-height:1;}
-.photo-cell-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.52);color:#fff;font-size:.6rem;padding:3px 5px;line-height:1.3;text-align:center;}
-.photo-cell-edit{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.45);color:#fff;border:none;border-radius:6px;padding:2px 6px;font-size:.6rem;cursor:pointer;z-index:3;}
-.photo-add-cell{height:110px;border:2px dashed rgba(28,26,22,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--paper);gap:4px;font-size:.65rem;color:var(--fog);}
-.photo-add-cell:hover{border-color:var(--sunset);color:var(--sunset);}
-.photo-add-cell-icon{font-size:1.4rem;}
-.photo-count{font-size:.7rem;color:var(--fog);padding:4px 0 2px;text-align:right;}
+.price-blur{filter:blur(5px);user-select:none;}
+.cost-banner{background:linear-gradient(135deg,var(--sand),#e8d9b8);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.8rem;color:var(--fog);}
+.cost-banner button{background:var(--sunset);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:.78rem;font-weight:600;cursor:pointer;}
+.cost-group-total{display:flex;justify-content:space-between;font-weight:600;font-size:.85rem;padding:8px 0 4px;border-top:1px solid rgba(28,26,22,.15);margin-top:4px;}
+.day-costs-section{margin-top:14px;border-top:1px solid rgba(28,26,22,.08);padding-top:12px;}
+.day-costs-title{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fog);margin-bottom:8px;}
+.day-cost-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(28,26,22,.05);font-size:.84rem;gap:8px;}
+.day-cost-add{background:none;border:1.5px dashed rgba(28,26,22,.2);border-radius:8px;padding:6px 12px;font-size:.78rem;color:var(--fog);cursor:pointer;width:100%;text-align:left;margin-top:6px;}
+.day-cost-total{font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;padding-top:7px;margin-top:4px;border-top:1px solid rgba(28,26,22,.12);}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;flex-direction:column;}
+.lightbox.open{display:flex;}
+.lightbox-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;color:#fff;flex-shrink:0;}
+.lightbox-counter{font-size:.82rem;color:rgba(255,255,255,.6);}
+.lightbox-close{color:#fff;font-size:1.6rem;cursor:pointer;background:none;border:none;opacity:.8;padding:0;}
+.lightbox-track{display:flex;flex:1;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.lightbox-track::-webkit-scrollbar{display:none;}
+.lightbox-slide{min-width:100vw;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;padding:10px;}
+.lightbox-slide img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:6px;}
+.lightbox-caption{text-align:center;color:rgba(255,255,255,.7);font-size:.8rem;padding:10px 20px;flex-shrink:0;min-height:36px;}
+.lightbox-nav{display:flex;justify-content:center;gap:6px;padding:8px;flex-shrink:0;}
+.lightbox-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;}
+.lightbox-dot.active{background:#fff;}
 </style>
 </head>
 <body>
@@ -341,7 +336,7 @@ textarea{resize:vertical;min-height:100px;}
   <button class="tab-btn" onclick="showTab('route')" id="tab-route">📍 Route</button>
   <button class="tab-btn" onclick="showTab('ausfluege')" id="tab-ausfluege">🎟️ Ausflüge</button>
   <button class="tab-btn" onclick="showTab('neu')" id="tab-neu" style="display:none">✍️ Eintrag</button>
-  <button class="tab-btn" onclick="showTab('kosten')" id="tab-kosten" style="display:none">🔒 Kosten</button>
+  <button class="tab-btn" onclick="showTab('kosten')" id="tab-kosten">💰 Kosten</button>
   <button class="tab-btn" onclick="showTab('planer')" id="tab-planer">✨ Tipps</button>
 </div>
 
@@ -434,35 +429,7 @@ textarea{resize:vertical;min-height:100px;}
 
 <!-- KOSTEN (PIN-geschützt) -->
 <div class="section" id="section-kosten">
-  <div id="pin-screen">
-    <div class="pin-overlay">
-      <div style="font-size:2rem;margin-bottom:12px">🔒</div>
-      <h3>Kosten & Preise</h3>
-      <p>Dieser Bereich ist nur für dich. Bitte PIN eingeben.</p>
-      <div class="pin-dots" id="pin-dots">
-        <div class="pin-dot" id="pd0"></div>
-        <div class="pin-dot" id="pd1"></div>
-        <div class="pin-dot" id="pd2"></div>
-        <div class="pin-dot" id="pd3"></div>
-      </div>
-      <div class="pin-keypad">
-        <button class="pin-key" onclick="pinInput('1')">1</button>
-        <button class="pin-key" onclick="pinInput('2')">2</button>
-        <button class="pin-key" onclick="pinInput('3')">3</button>
-        <button class="pin-key" onclick="pinInput('4')">4</button>
-        <button class="pin-key" onclick="pinInput('5')">5</button>
-        <button class="pin-key" onclick="pinInput('6')">6</button>
-        <button class="pin-key" onclick="pinInput('7')">7</button>
-        <button class="pin-key" onclick="pinInput('8')">8</button>
-        <button class="pin-key" onclick="pinInput('9')">9</button>
-        <button class="pin-key del" onclick="pinDel()">⌫</button>
-        <button class="pin-key" onclick="pinInput('0')">0</button>
-        <button class="pin-key" onclick="pinClear()" style="font-size:.75rem;color:var(--fog)">C</button>
-      </div>
-      <div class="pin-error" id="pin-error"></div>
-    </div>
-  </div>
-  <div id="cost-screen" style="display:none">
+  <div id="cost-screen">
     <div class="cost-card">
       <div class="cost-title">
         💰 Reisekosten
@@ -504,17 +471,9 @@ textarea{resize:vertical;min-height:100px;}
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <div class="lightbox-header">
-    <div class="lightbox-counter" id="lb-counter"></div>
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  </div>
-  <div class="lightbox-track" id="lb-track"></div>
-  <div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:6px 16px;min-height:40px;">
-    <div class="lightbox-caption" id="lb-caption" style="flex:1;text-align:center;padding:0;"></div>
-    <button id="lb-edit-btn" onclick="openLBCaption()" style="display:none;background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:5px 10px;font-size:.75rem;cursor:pointer;flex-shrink:0;">✏️ Kommentar</button>
-  </div>
-  <div class="lightbox-nav" id="lb-nav"></div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
 </div>
 
 <div id="toast"></div>
@@ -591,17 +550,21 @@ function buildDays() {
 const DAYS = buildDays();
 let currentDay = 0;
 let entries = [];
-let photos = {}; // keyed by iso date, array of base64 strings
-let hotelPhotos = {}; // keyed by bookingId
-let photoComments = {}; // {iso_idx: 'comment'}
-let hotelReviews = {}; // {bid: {stars:0, text:''}}
-let dayExpenses = {}; // keyed by iso date
+let photos = {};
+let hotelPhotos = {};
+let dayExpenses = {};
 let editMode = false;
 let editPinBuffer = '';
-let _apiKey = ''; // nur im Speicher, nie gespeichert
 let currentExpenseIso = '';
 let _hotelInput = null;
 let _hotelBid = '';
+let hotelReviews = {};
+let photoComments = {};
+let _captionKey = '';
+let _lbIso = '';
+let _lbIdx = 0;
+let _recognition = null;
+let _apiKey = '';
 let activeFilter = 'alle';
 let lastRouteText = '';
 let prefillBooking = null;
@@ -631,21 +594,18 @@ function initSwipe() {
 }
 
 function buildDaySlides() {
-  const track = document.getElementById('swipe-track');
-  const dots  = document.getElementById('days-dots');
+  var track = document.getElementById('swipe-track');
+  var dots  = document.getElementById('days-dots');
   track.innerHTML = '';
   dots.innerHTML  = '';
-
-  DAYS.forEach((day, i) => {
-    // Build slide
-    const slide = document.createElement('div');
+  DAYS.forEach(function(day, i) {
+    var slide = document.createElement('div');
     slide.className = 'day-slide';
     slide.innerHTML = buildDayHTML(day, i);
     track.appendChild(slide);
-    // Dot
-    const dot = document.createElement('div');
+    var dot = document.createElement('div');
     dot.className = 'day-dot' + (i===0?' active':'');
-    dot.onclick = () => goToDay(i);
+    dot.onclick = (function(idx){ return function(){ goToDay(idx); }; })(i);
     dots.appendChild(dot);
   });
   updateDayNav();
@@ -653,47 +613,38 @@ function buildDaySlides() {
 }
 
 function buildDayHTML(day, i) {
-  var d = new Date(day.iso+'T12:00:00');
-  var dateLabel = d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  var loc = day.stay ? day.stay.loc : (day.dayItems.length ? 'Reisetag' : '-');
+  const d = new Date(day.iso+'T12:00:00');
+  const dateLabel = d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const loc = day.stay ? day.stay.loc : (day.dayItems.length ? '✈️ Reisetag' : '–');
 
   // Transport & tour badges
-  var badges = day.dayItems.map(function(t){
-    if(t.type==='transport'){
-      var cls = {flight:'badge-flight-s',bus:'badge-bus-s',car:'badge-car-s',ferry:'badge-ferry-s'}[t.cls]||'badge-bus-s';
-      return '<span class="day-transport-badge '+cls+'">'+t.icon+' '+t.name.split('·')[0].trim()+'</span>';
+  const badges = day.dayItems.map(t => {
+    if(t.type==='transport') {
+      const cls = {flight:'badge-flight-s',bus:'badge-bus-s',car:'badge-car-s',ferry:'badge-ferry-s'}[t.cls]||'badge-bus-s';
+      return `<span class="day-transport-badge ${cls}">${t.icon} ${t.name.split('·')[0].trim()}</span>`;
     }
-    if(t.type==='tour'){
-      var a=null;
-      for(var ai=0;ai<ACTIVITIES.length;ai++){if(ACTIVITIES[ai].id===t.ref){a=ACTIVITIES[ai];break;}}
-      return a?'<span class="day-transport-badge badge-tour-s">'+a.emoji+' '+a.name.split('·')[0].trim()+'</span>':'';
+    if(t.type==='tour') {
+      const a=ACTIVITIES.find(x=>x.id===t.ref);
+      return a?`<span class="day-transport-badge badge-tour-s">${a.emoji} ${a.name.split('·')[0].trim()}</span>`:'';
     }
     return '';
   }).filter(Boolean).join('');
 
   // Entry text
-  var entry = null;
-  for(var ei=0;ei<entries.length;ei++){if(entries[ei].datum===day.iso){entry=entries[ei];break;}}
-  var entryHTML;
-  if(entry){
-    entryHTML = '<div class="day-entry-text">'+entry.text+'</div>'
-      +'<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;">'
-      +'<button class="btn btn-ghost btn-sm" style="color:var(--fog);border-color:rgba(0,0,0,.18);" onclick="openModal('+entry.id+')">Volltext</button>'
-      +(editMode?'<button class="btn btn-primary btn-sm" onclick="editEntry('+entry.id+')">Bearbeiten</button>'
-               +'<button class="btn btn-ghost btn-sm" style="color:#dc2626;border-color:#dc2626;" onclick="delEntry('+entry.id+')">Loeschen</button>':'')
-      +'</div>';
-  } else {
-    entryHTML = '<div class="day-entry-empty">Noch kein Eintrag fuer diesen Tag.</div>'
-      +(editMode?'<button class="btn btn-primary btn-sm" data-iso="'+day.iso+'" onclick="startEntryEl(this)">Eintrag schreiben</button>':"")
-  }
+  const entry = entries.find(e=>e.datum===day.iso);
+  const entryHTML = entry
+    ? `<div class="day-entry-text">${entry.text}</div>
+       <button class="btn btn-ghost btn-sm" style="color:var(--fog);border-color:rgba(0,0,0,.18);margin-top:4px" onclick="openModal(${entry.id})">📖 Volltext lesen</button>`
+    : `<div class="day-entry-empty">Noch kein Eintrag für diesen Tag.</div>
+       <button class="btn btn-primary btn-sm" onclick="startEntryForDate('${day.iso}')">✍️ Eintrag schreiben</button>`;
 
-  // Photos - gallery
+  // Photos
   var dayPhotos = photos[day.iso] || [];
   var maxPhotos = 20;
   var photoItemsHTML = dayPhotos.map(function(src,pi){
     var key = day.iso+'_'+pi;
     var caption = photoComments[key] || '';
-    return '<div class="photo-cell" data-iso="'+day.iso+'" data-idx="'+pi+'">'
+    return '<div class="photo-cell">'
       +'<img src="'+src+'" data-iso="'+day.iso+'" data-idx="'+pi+'" onclick="openLB(this)" alt="Foto">'
       +(editMode?'<button class="photo-cell-del" style="display:flex" data-iso="'+day.iso+'" data-idx="'+pi+'" onclick="delPhotoEl(this)">✕</button>':'')
       +(caption?'<div class="photo-cell-caption">'+caption+'</div>':'')
@@ -704,94 +655,21 @@ function buildDayHTML(day, i) {
     ? '<label class="photo-add-cell"><span class="photo-add-cell-icon">📷</span><span>Foto</span><input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,\''+day.iso+'\')" style="display:none"></label>'
     : '';
   var countLabel = dayPhotos.length > 0 ? '<div class="photo-count">'+dayPhotos.length+'/'+maxPhotos+' Fotos</div>' : '';
-  var photoHTML = '<div class="photo-gallery">'+photoItemsHTML+addPhotoBtn+'</div>'+countLabel;
+  var photoHTML = '<div class="photo-gallery">'+photoItemsHTML+addPhotoBtn+'</div>'+countLabel;;
 
-  // Hotel banner
-  var hotelBannerHTML = "";
-  if(day.stay) {
-    var bid = day.stay.id;
-    var hPhotos = hotelPhotos[bid] || [];
-    var bgMap = {bush:"linear-gradient(160deg,#1a4010 0%,#2d6b1a 50%,#3a5c1a 100%)",ocean:"linear-gradient(160deg,#0a1f3a 0%,#0f3d6b 50%,#1a5580 100%)",reef:"linear-gradient(160deg,#043a2a 0%,#0a6b4a 50%,#0d9488 100%)",sunset:"linear-gradient(160deg,#2a0f05 0%,#7c2d0a 50%,#c4511a 100%)"};
-    var bg = bgMap[day.stay.color] || "linear-gradient(135deg,#1a2a3a,#2a3a4a)";
-    if(hPhotos.length > 0) {
-      var slides = hPhotos.map(function(src,pi){
-        return "<div class=\"hotel-banner-slide\"><img src=\""+src+"\" data-bid=\""+bid+"\" data-idx=\""+pi+"\" onclick=\"openHotelLBEl(this)\" alt=\"Hotel\" style=\"width:100%;height:180px;object-fit:cover;object-position:center;display:block;\"></div>";
-      }).join("");
-      hotelBannerHTML = "<div class=\"hotel-banner\"><div class=\"hotel-banner-inner\">"+slides+"</div>"
-        +(editMode?"<button class=\"hotel-btn hotel-add-btn\" data-bid=\""+bid+"\" onclick=\"addHotelPhotoEl(this)\">+ Foto</button>":"")
-        +(editMode?"<button class=\"hotel-btn hotel-del-btn\" data-bid=\""+bid+"\" data-idx=\"0\" onclick=\"delHotelPhotoEl(this)\">x</button>":"")
-        +"</div>";
-    } else {
-      hotelBannerHTML = "<div class=\"hotel-banner\"><div class=\"hotel-banner-placeholder\" style=\"background:"+bg+"\">"
-        +"<div class=\"hotel-banner-emoji-bg\">"+day.stay.emoji+"</div>"
-        +"<div class=\"hotel-banner-name\">"+day.stay.name+"</div>"
-        +"<div class=\"hotel-banner-loc\">📍 "+day.stay.loc+"</div>"
-        +"<div class=\"hotel-banner-nights\">"+day.stay.nights+" Nacht"+(day.stay.nights>1?"e":"")+"</div>"
-        +(editMode?"<button class=\"hotel-btn hotel-add-btn\" style=\"position:relative;bottom:auto;right:auto;margin-top:6px;\" data-bid=\""+bid+"\" onclick=\"addHotelPhotoEl(this)\">📷 Foto hochladen</button>":"")
-        +"</div></div>";
-    }
-  }
-
-  // Day expenses
-  var exps = dayExpenses[day.iso] || [];
-  var expsTotal = exps.reduce(function(s,e){return s+e.amount;},0);
-  var costsHTML = "";
-  if(exps.length > 0 || editMode) {
-    costsHTML = "<div class=\"day-costs-section\"><div class=\"day-costs-title\">Tagesausgaben</div>";
-    exps.forEach(function(e,i){
-      costsHTML += "<div class=\"day-cost-row\">"
-        +"<div class=\"day-cost-cat\">"+e.cat+" "+e.label+"</div>"
-        +"<div style=\"display:flex;align-items:center;gap:6px;\"><span>EUR "+e.amount.toFixed(2)+"</span>"
-        +(editMode?"<button data-iso=\""+day.iso+"\" data-idx=\""+i+"\" onclick=\"delExpEl(this)\" style=\"background:none;border:none;color:#dc2626;cursor:pointer;\">x</button>":"")
-        +"</div></div>";
-    });
-    if(expsTotal>0) costsHTML += "<div class=\"day-cost-total\"><span>Gesamt</span><span>EUR "+expsTotal.toFixed(2)+"</span></div>";
-    if(editMode) costsHTML += "<button class=\"day-cost-add\" data-iso=\""+day.iso+"\" onclick=\"addExpEl(this)\">+ Ausgabe erfassen</button>";
-    costsHTML += "</div>";
-  }
-
-  // Hotel review section
-  var hotelReviewHTML = "";
-  if(day.stay) {
-    var rev = hotelReviews[bid] || {stars:0, text:""};
-    var starsHTML = "";
-    for(var s=1;s<=5;s++) {
-      var active = s <= rev.stars ? " active" : "";
-      starsHTML += "<button class=\"star-btn"+active+"\" data-bid=\""+bid+"\" data-star=\""+s+"\" onclick=\"setStarEl(this)\">&#9733;</button>";
-    }
-    hotelReviewHTML = "<div class=\"hotel-review\">";
-    hotelReviewHTML += "<div class=\"hotel-review-stars\">"+starsHTML+"</div>";
-    if(rev.text) {
-      hotelReviewHTML += "<div class=\"hotel-review-text\">"+rev.text+"</div>";
-    } else {
-      hotelReviewHTML += "<div class=\"hotel-review-empty\">Noch keine Bewertung.</div>";
-    }
-    if(editMode) {
-      hotelReviewHTML += "<div class=\"hotel-review-actions\">";
-      hotelReviewHTML += "<button class=\"btn btn-reef btn-sm\" data-bid=\""+bid+"\" data-hotel=\""+day.stay.name+"\" data-stars=\""+rev.stars+"\" onclick=\"genReviewEl(this)\">✨ KI-Bewertung</button>";
-      hotelReviewHTML += "<button class=\"btn btn-ghost btn-sm\" data-bid=\""+bid+"\" onclick=\"dictateReviewEl(this)\">🎤 Diktieren</button>";
-      if(rev.text) hotelReviewHTML += "<button class=\"btn btn-ghost btn-sm\" style=\"color:#dc2626;border-color:#dc2626;\" data-bid=\""+bid+"\" onclick=\"clearReviewEl(this)\">🗑 Löschen</button>";
-      hotelReviewHTML += "</div>";
-    }
-    hotelReviewHTML += "</div>";
-  }
-
-  var html = "<div class=\"day-card\">"
-    + "<div class=\"day-card-header\">"
-    + "<div class=\"day-card-date\">"+dateLabel+"</div>"
-    + "<div class=\"day-card-loc\">"+loc+"</div>"
-    + "</div>"
-    + hotelBannerHTML
-    + hotelReviewHTML
-    + "<div class=\"photo-strip\">"
-    + "<div class=\"photo-strip-label\">Fotos</div>"
-    + "<div class=\"photo-grid\" id=\"photo-grid-"+day.iso+"\">"+photoHTML+"</div>"
-    + "</div>"
-    + "<div class=\"day-entry-area\" id=\"entry-area-"+day.iso+"\">"+entryHTML+"</div>"
-    + costsHTML
-    + (badges ? "<div class=\"day-transport\">"+badges+"</div>" : "")
-    + "</div>";
-  return html;
+  return `
+  <div class="day-card">
+    <div class="day-card-header">
+      <div class="day-card-date">${dateLabel}</div>
+      <div class="day-card-loc">${loc}</div>
+    </div>
+    <div class="photo-strip">
+      <div class="photo-strip-label">📸 Fotos</div>
+      <div class="photo-grid" id="photo-grid-${day.iso}">${photoHTML}</div>
+    </div>
+    <div class="day-entry-area" id="entry-area-${day.iso}">${entryHTML}</div>
+    ${badges ? `<div class="day-transport">${badges}</div>` : ''}
+  </div>`;
 }
 
 function updateDayNav() {
@@ -838,88 +716,26 @@ function handlePhotos(event, iso) {
 }
 
 function refreshPhotoGrid(iso) {
-  var grid = document.getElementById('photo-grid-'+iso);
+  const grid = document.getElementById('photo-grid-'+iso);
   if(!grid) return;
-  buildDaySlides();
-  toast('Foto gespeichert!');
+  const dayPhotos = photos[iso]||[];
+  grid.innerHTML = dayPhotos.map((src,pi)=>
+    `<img class="photo-thumb" src="${src}" onclick="openLightbox('${iso}',${pi})" alt="Foto">`
+  ).join('') +
+  `<label class="photo-add">
+    <span class="photo-add-icon">📷</span><span>Foto</span>
+    <input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,'${iso}')">
+  </label>`;
+  toast('✓ Foto gespeichert!');
 }
 
-function openLB(el){
-  var iso = el.getAttribute('data-iso');
-  var startIdx = parseInt(el.getAttribute('data-idx')||'0');
-  var allPhotos = photos[iso]||[];
-  openGalleryLB(iso, allPhotos, startIdx);
-}
-
-var _lbIso = '';
-var _lbIdx = 0;
-
-function openGalleryLB(iso, allPhotos, startIdx){
-  if(!allPhotos.length) return;
-  _lbIso = iso;
-  _lbIdx = startIdx;
-  var track = document.getElementById('lb-track');
-  var nav = document.getElementById('lb-nav');
-  track.innerHTML = '';
-  nav.innerHTML = '';
-  allPhotos.forEach(function(src, pi){
-    var slide = document.createElement('div');
-    slide.className = 'lightbox-slide';
-    var img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Foto';
-    slide.appendChild(img);
-    track.appendChild(slide);
-    var dot = document.createElement('div');
-    dot.className = 'lightbox-dot' + (pi===startIdx?' active':'');
-    dot.onclick = (function(i){ return function(){ scrollToLBSlide(i, iso, allPhotos.length); }; })(pi);
-    nav.appendChild(dot);
-  });
-  document.getElementById('lightbox').classList.add('open');
-  // Show edit button in admin mode
-  var editBtn = document.getElementById('lb-edit-btn');
-  if(editBtn) editBtn.style.display = editMode ? 'block' : 'none';
-  setTimeout(function(){
-    var slideW = track.offsetWidth;
-    track.scrollLeft = startIdx * slideW;
-    updateLBCaption(iso, startIdx, allPhotos.length);
-  }, 50);
-  track.onscroll = function(){
-    var idx = Math.round(track.scrollLeft / Math.max(track.offsetWidth,1));
-    if(idx !== _lbIdx){ _lbIdx = idx; updateLBCaption(iso, idx, allPhotos.length); }
-  };
-}
-
-
-function openLBCaption(){
-  if(!editMode || !_lbIso) return;
-  _captionKey = _lbIso + '_' + _lbIdx;
-  document.getElementById('caption-input').value = photoComments[_captionKey]||'';
-  document.getElementById('caption-modal').style.display = 'flex';
-  setTimeout(function(){ document.getElementById('caption-input').focus(); }, 200);
-}
-
-function updateLBCaption(iso, idx, total){
-  document.getElementById('lb-counter').textContent = (idx+1)+' / '+total;
-  var key = iso+'_'+idx;
-  document.getElementById('lb-caption').textContent = photoComments[key]||'';
-  document.querySelectorAll('.lightbox-dot').forEach(function(d,i){
-    d.classList.toggle('active', i===idx);
-  });
-}
-
-function scrollToLBSlide(idx, iso, total){
-  var track = document.getElementById('lb-track');
-  track.scrollLeft = idx * track.offsetWidth;
-  updateLBCaption(iso, idx, total);
-}
 function openLightbox(iso, idx) {
   const src = (photos[iso]||[])[idx];
   if(!src) return;
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.getElementById('lb-track').innerHTML=''; }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
 // ── TABS ──────────────────────────────────────────────────────────────────
 function showTab(tab) {
@@ -1047,81 +863,52 @@ function lockCosts(){
 
 // ── COSTS ─────────────────────────────────────────────────────────────────
 function renderCosts(){
-  if(!pinUnlocked)return;
-  var totalAcc=0;
-  var html="";
-
-  // Unterkunfte
-  html+="<div class=\"cost-section-title\">Unterkuenfte</div>";
-  var unterkunftSum=0;
+  var pc = editMode ? "" : "price-blur";
+  var totalAcc = 0;
+  var html = "";
+  html += "<div class=\"cost-section-title\">Unterkuenfte</div>";
+  var unterkunftSum = 0;
   BOOKINGS.forEach(function(b){
     var p=b.price;unterkunftSum+=p;totalAcc+=p;
-    html+="<div class=\"cost-row\"><div><div class=\"name\">"+b.emoji+" "+b.name+"</div>"
+    html += "<div class=\"cost-row\"><div><div class=\"name\">"+b.emoji+" "+b.name+"</div>"
       +"<div class=\"dates\">"+b.dateStr+" - "+b.nights+" Nacht"+(b.nights>1?"e":"")+"</div></div>"
-      +"<div class=\"price\">EUR "+p.toFixed(2)+"</div></div>";
+      +"<div class=\"price "+pc+"\">EUR "+formatEUR(p)+"</div></div>";
   });
-  html+="<div class=\"cost-group-total\"><span>Summe Unterkuenfte</span><span>EUR "+unterkunftSum.toFixed(2)+"</span></div>";
-
-  // Fluege
-  html+="<div class=\"cost-section-title\">Fluege</div>";
+  html += "<div class=\"cost-group-total\"><span>Summe Unterkuenfte</span><span class=\""+pc+"\">EUR "+formatEUR(unterkunftSum)+"</span></div>";
+  html += "<div class=\"cost-section-title\">Fluege</div>";
   var flightItems=[{n:"Singapore Airlines SQ 327/203/222/328",d:"MUC-SIN-CNS / SYD-SIN-MUC - Ref. FSARTK",p:2352},{n:"Qantas QF 1825 + QF 541",d:"Mackay-Brisbane-Sydney - Ref. EU3G36",p:505.94}];
   var flightSum=0;
-  flightItems.forEach(function(it){flightSum+=it.p;totalAcc+=it.p;html+="<div class=\"cost-row\"><div><div class=\"name\">"+it.n+"</div><div class=\"dates\">"+it.d+"</div></div><div class=\"price\">EUR "+it.p.toFixed(2)+"</div></div>";});
-  html+="<div class=\"cost-group-total\"><span>Summe Fluege</span><span>EUR "+flightSum.toFixed(2)+"</span></div>";
-
-  // Transport
-  html+="<div class=\"cost-section-title\">Transport</div>";
-  var transItems=[
-    {n:"SR Coaches Cairns - Port Douglas",d:"14.09. & 19.09. - Ref. BW5283642",p:153.25},
-    {n:"Mietwagen 1 Avis Toyota Corolla",d:"19.-22. Sept. - Cairns nach Townsville",p:321},
-    {n:"FlixBus Townsville nach Airlie Beach",d:"So. 27.09. - 13:50-17:50 Uhr",p:60},
-    {n:"Mietwagen 2 ab Cape Hillsborough",d:"2.-5. Okt. - Cape Hillsborough nach Mackay",p:153},
-    {n:"Faehre Townsville - Magnetic Island Hin+Rueck",d:"23.09. & 27.09. - Ref. GYG7VKWWBAAG",p:55.70},
-    {n:"Faehre Airlie Beach nach Hamilton Island",d:"29.09. 10:30 Uhr - Ref. 5635629",p:94.50},
-    {n:"Faehre Hamilton Island nach Airlie Beach",d:"02.10. 08:50 Uhr - Ref. 5635630",p:94.50}
-  ];
+  flightItems.forEach(function(it){flightSum+=it.p;totalAcc+=it.p;html+="<div class=\"cost-row\"><div><div class=\"name\">"+it.n+"</div><div class=\"dates\">"+it.d+"</div></div><div class=\"price "+pc+"\">EUR "+formatEUR(it.p)+"</div></div>";});
+  html += "<div class=\"cost-group-total\"><span>Summe Fluege</span><span class=\""+pc+"\">EUR "+formatEUR(flightSum)+"</span></div>";
+  html += "<div class=\"cost-section-title\">Transport</div>";
+  var transItems=[{n:"SR Coaches Cairns - Port Douglas",d:"14.09. & 19.09. - Ref. BW5283642",p:153.25},{n:"Mietwagen 1 Avis Toyota Corolla",d:"19.-22. Sept. - Cairns nach Townsville",p:321},{n:"FlixBus Townsville nach Airlie Beach",d:"So. 27.09. - 13:50-17:50 Uhr",p:60},{n:"Mietwagen 2 ab Cape Hillsborough",d:"2.-5. Okt.",p:153},{n:"Faehre Townsville - Magnetic Island",d:"23.09. & 27.09. - Ref. GYG7VKWWBAAG",p:55.70},{n:"Faehre Airlie Beach nach Hamilton Island",d:"29.09. - Ref. 5635629",p:94.50},{n:"Faehre Hamilton Island nach Airlie Beach",d:"02.10. - Ref. 5635630",p:94.50}];
   var transSum=0;
-  transItems.forEach(function(it){transSum+=it.p;totalAcc+=it.p;html+="<div class=\"cost-row\"><div><div class=\"name\">"+it.n+"</div><div class=\"dates\">"+it.d+"</div></div><div class=\"price\">EUR "+it.p.toFixed(2)+"</div></div>";});
-  html+="<div class=\"cost-group-total\"><span>Summe Transport</span><span>EUR "+transSum.toFixed(2)+"</span></div>";
-
-  // Ausfluege
-  html+="<div class=\"cost-section-title\">Ausfluege</div>";
-  var tourItems=[
-    {n:"Low Isles Glass Bottom Boat & Snorkeling",d:"16.09. - Port Douglas - 2 Erw.",p:323.60},
-    {n:"Daintree Tour mit Wildlife Cruise",d:"17.09. - Port Douglas - 2 Erw.",p:216.94},
-    {n:"Kuranda Scenic Train + Bus",d:"18.09. - Ref. #358349003 - 2 Erw.",p:208.94},
-    {n:"Archway Explorer Tour Lavahohlen",d:"21.09. - Undara - Ref. RTJBH7Y",p:87.62},
-    {n:"Whitehaven Katamaran Tagestour",d:"28.09. - Airlie Beach - 2 Erw.",p:326.02}
-  ];
+  transItems.forEach(function(it){transSum+=it.p;totalAcc+=it.p;html+="<div class=\"cost-row\"><div><div class=\"name\">"+it.n+"</div><div class=\"dates\">"+it.d+"</div></div><div class=\"price "+pc+"\">EUR "+formatEUR(it.p)+"</div></div>";});
+  html += "<div class=\"cost-group-total\"><span>Summe Transport</span><span class=\""+pc+"\">EUR "+formatEUR(transSum)+"</span></div>";
+  html += "<div class=\"cost-section-title\">Ausfluege</div>";
+  var tourItems=[{n:"Low Isles Glass Bottom Boat & Snorkeling",d:"16.09. - Port Douglas - 2 Erw.",p:323.60},{n:"Daintree Tour mit Wildlife Cruise",d:"17.09. - Port Douglas - 2 Erw.",p:216.94},{n:"Kuranda Scenic Train + Bus",d:"18.09. - Ref. #358349003 - 2 Erw.",p:208.94},{n:"Archway Explorer Tour Lavahohlen",d:"21.09. - Undara - Ref. RTJBH7Y",p:87.62},{n:"Whitehaven Katamaran Tagestour",d:"28.09. - Airlie Beach - 2 Erw.",p:326.02}];
   var tourSum=0;
-  tourItems.forEach(function(it){tourSum+=it.p;totalAcc+=it.p;html+="<div class=\"cost-row\"><div><div class=\"name\">"+it.n+"</div><div class=\"dates\">"+it.d+"</div></div><div class=\"price\">EUR "+it.p.toFixed(2)+"</div></div>";});
-  html+="<div class=\"cost-group-total\"><span>Summe Ausfluege</span><span>EUR "+tourSum.toFixed(2)+"</span></div>";
-
-  // Tagesausgaben
+  tourItems.forEach(function(it){tourSum+=it.p;totalAcc+=it.p;html+="<div class=\"cost-row\"><div><div class=\"name\">"+it.n+"</div><div class=\"dates\">"+it.d+"</div></div><div class=\"price "+pc+"\">EUR "+formatEUR(it.p)+"</div></div>";});
+  html += "<div class=\"cost-group-total\"><span>Summe Ausfluege</span><span class=\""+pc+"\">EUR "+formatEUR(tourSum)+"</span></div>";
   var tagesSum=0;
-  Object.keys(dayExpenses).sort().forEach(function(iso){
-    var list=dayExpenses[iso];if(!list||!list.length)return;
-    list.forEach(function(e){tagesSum+=e.amount;});
-  });
-  if(tagesSum>0) {
+  Object.keys(dayExpenses).sort().forEach(function(iso){var list=dayExpenses[iso];if(!list||!list.length)return;list.forEach(function(e){tagesSum+=e.amount;});});
+  if(tagesSum>0){
     html+="<div class=\"cost-section-title\">Tagesausgaben vor Ort</div>";
     Object.keys(dayExpenses).sort().forEach(function(iso){
       var list=dayExpenses[iso];if(!list||!list.length)return;
       var d=new Date(iso+"T12:00:00");
       var dl=d.toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"short"});
       var dayT=list.reduce(function(s,e){return s+e.amount;},0);
-      html+="<div class=\"cost-row\" style=\"font-weight:600;\"><div>"+dl+"</div><div class=\"price\">EUR "+dayT.toFixed(2)+"</div></div>";
-      list.forEach(function(e){html+="<div class=\"cost-row\" style=\"padding-left:12px;font-size:.8rem;\"><div>"+e.cat+" "+e.label+"</div><div class=\"price\">EUR "+e.amount.toFixed(2)+"</div></div>";});
+      html+="<div class=\"cost-row\" style=\"font-weight:600;\"><div>"+dl+"</div><div class=\"price "+pc+"\">EUR "+formatEUR(dayT)+"</div></div>";
+      list.forEach(function(e){html+="<div class=\"cost-row\" style=\"padding-left:12px;font-size:.8rem;\"><div>"+e.cat+" "+e.label+"</div><div class=\"price "+pc+"\">EUR "+formatEUR(e.amount)+"</div></div>";});
     });
     totalAcc+=tagesSum;
-    html+="<div class=\"cost-group-total\"><span>Summe Tagesausgaben</span><span>EUR "+tagesSum.toFixed(2)+"</span></div>";
+    html+="<div class=\"cost-group-total\"><span>Summe Tagesausgaben</span><span class=\""+pc+"\">EUR "+formatEUR(tagesSum)+"</span></div>";
   }
-
-  document.getElementById("cost-list").innerHTML=html;
+  var banner=editMode?"":"<div class=\"cost-banner\"><span>Betraege nur im Admin-Modus sichtbar.</span><button onclick=\"toggleEditMode()\">&#128273; Admin</button></div>";
+  document.getElementById("cost-list").innerHTML=banner+html;
   document.getElementById("cost-total").innerHTML="";
-  document.getElementById("grand-total-box").innerHTML=
-    "<div style=\"display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;padding:14px 0 0;border-top:2px solid var(--sunset);margin-top:10px;color:var(--sunset);\">"
-    +"<span>Gesamtkosten</span><span>EUR "+totalAcc.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+"</span></div>";
+  document.getElementById("grand-total-box").innerHTML="<div style=\"display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;padding:14px 0 0;border-top:2px solid var(--sunset);margin-top:10px;color:var(--sunset);\"><span>Gesamtkosten</span><span class=\""+pc+"\">EUR "+formatEUR(totalAcc)+"</span></div>";
 }
 
 // ── MODAL ─────────────────────────────────────────────────────────────────
@@ -1332,19 +1119,6 @@ const TIPS = [
     food:"🍽️ Gus Cafe in South Brisbane: Brisbanes legendärstes Frühstücks-Café seit 1976. Abends: Teneriffe Brewing Co. für lokales Craft Beer und Blick auf die Story Bridge.",
     tip:'💡 City Hopper Fähre — kostenlos! Fährt alle 30 Min über den Brisbane River und verbindet South Bank, CBD, New Farm und Fortitude Valley. Der schönste Weg, die Stadt zu erkunden.',
   },
-  {
-    stop:'🦢 Sydney', dates:'9.–10. Okt.', color:'var(--ocean)',
-    mustdos:[
-      {title:'Sydney Opera House & Circular Quay', text:'Das Wahrzeichen Australiens von außen bestaunen und am Circular Quay entlangschlendern. Die Fähre von Manly nach Circular Quay bietet die spektakulärste Hafeneinfahrt der Welt — unbedingt machen!'},
-      {title:'Sydney Harbour Bridge', text:'Die Brücke zu Fuß oder per Rad überqueren ist kostenlos und bietet atemberaubende Aussichten auf Hafen und Opera House. Pylonpunkt-Aussichtsturm für noch bessere Fotos.'},
-      {title:'Bondi Beach', text:'Australiens berühmtester Strand — nur 20 Min vom Zentrum. Den Bondi to Coogee Coastal Walk (6 km) entlanggehen: spektakuläre Küstenlandschaft mit Blick auf den Pazifik.'},
-      {title:'The Rocks', text:'Sydneys ältestes Viertel mit gepflasterten Gassen, Pubs aus dem 19. Jahrhundert und tollem Wochenmarkt. Perfekt für den letzten Australien-Abend.'},
-      {title:'Taronga Zoo', text:'Per Fähre über den Hafen erreichbar — der Zoo liegt auf einem Hügel mit spektakulärem Blick auf die Skyline. Koalas, Wombats und exotische Tiere vor Postkarten-Kulisse.'},
-    ],
-    secret:'🤫 Geheimtipp: Shelly Beach in Manly — ruhige, schnorcheltaugliche Bucht hinter dem Manly Beach, kaum Touristen. Kombiniert mit der Fähre von Circular Quay ein perfekter letzter Australien-Morgen.',
-    food:'🍽️ Fish & Chips am Circular Quay mit Blick auf die Opera House. Abends: Restaurantviertel Surry Hills für die beste Küche Sydneys — von Thai bis Modern Australian.',
-    tip:'💡 Opal Card am Flughafen kaufen (ca. AUD 20) — gilt für alle Busse, Züge und Fähren in Sydney. Die Fähre zum Manly Beach und zurück kostet nur wenige Dollar und ist ein Erlebnis für sich.',
-  },
 ];
 
 function renderTips() {
@@ -1377,242 +1151,10 @@ function toggleTip(i){
   arrow.style.transform=open?'':'rotate(180deg)';
 }
 
-function startEntryEl(btn){
-  startEntryForDate(btn.getAttribute("data-iso"));
-}
-
-// ── PHOTO CAPTIONS ────────────────────────────────────────────────────────
-var _captionKey = '';
-function openCaptionModal(btn){
-  _captionKey = btn.getAttribute('data-iso')+'_'+btn.getAttribute('data-idx');
-  document.getElementById('caption-input').value = photoComments[_captionKey]||'';
-  document.getElementById('caption-modal').style.display = 'flex';
-  setTimeout(function(){ document.getElementById('caption-input').focus(); }, 200);
-}
-function saveCaption(){
-  var val = document.getElementById('caption-input').value.trim();
-  if(_captionKey) photoComments[_captionKey] = val;
-  document.getElementById('caption-modal').style.display = 'none';
-  // Update lightbox caption if open
-  if(document.getElementById('lightbox').classList.contains('open')){
-    document.getElementById('lb-caption').textContent = val;
-  }
-  buildDaySlides();
-  toast('Kommentar gespeichert!');
-}
-function closeCaptionModal(){
-  document.getElementById('caption-modal').style.display = 'none';
-}
-
-// ── HOTEL REVIEWS ────────────────────────────────────────────────────────
-function setStarEl(btn){
-  if(!editMode) return;
-  var bid = btn.getAttribute("data-bid");
-  var stars = parseInt(btn.getAttribute("data-star"));
-  if(!hotelReviews[bid]) hotelReviews[bid]={stars:0,text:""};
-  hotelReviews[bid].stars = stars;
-  buildDaySlides();
-  toast(stars+" Sterne gespeichert!");
-}
-
-function clearReviewEl(btn){
-  var bid = btn.getAttribute("data-bid");
-  if(hotelReviews[bid]) hotelReviews[bid].text="";
-  buildDaySlides();
-  toast("Bewertung geloescht.");
-}
-
-async function genReviewEl(btn){
-  if(!editMode) return;
-  var bid = btn.getAttribute("data-bid");
-  var hotel = btn.getAttribute("data-hotel");
-  var stars = parseInt(btn.getAttribute("data-stars")||"0");
-  var starsText = stars>0 ? stars+" von 5 Sternen" : "noch keine Bewertung";
-  var existing = (hotelReviews[bid]||{}).text||"";
-  // Show review modal for generating
-  document.getElementById("rev-bid").value = bid;
-  document.getElementById("rev-hotel-name").textContent = hotel;
-  document.getElementById("rev-text").value = existing;
-  document.getElementById("rev-modal").style.display = "flex";
-  // Nicht automatisch generieren - User entscheidet
-  // if(!existing) generateReviewText(bid, hotel, starsText);
-}
-
-async function polishReviewText(){
-  var ta = document.getElementById("rev-text");
-  var raw = ta.value.trim();
-  if(!raw){ toast("Bitte zuerst Text eingeben oder diktieren."); return; }
-  if(!_apiKey){
-    document.getElementById("apikey-overlay").style.display = "flex";
-    toast("Bitte zuerst API-Key eingeben.");
-    return;
-  }
-  var orig = raw;
-  ta.disabled = true;
-  ta.value = "Text wird verbessert...";
-  var hotel = document.getElementById("rev-hotel-name").textContent;
-  var promptText = "Verbessere diesen Hotelbewertungstext. Fluessiger und lebendiger. Inhalt beibehalten. Keine persoenlichen Anreden. Nur den Text.\n\nHotel: "+hotel+"\nText: "+orig;
-  try{
-    var resp = await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":_apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,messages:[{role:"user",content:promptText}]})
-    });
-    var d = await resp.json();
-    ta.disabled = false;
-    if(d.error){
-      if(d.error.type==="authentication_error"){ _apiKey=""; toast("API-Key ungueltig."); }
-      else toast("Fehler: "+d.error.message);
-      ta.value = orig;
-    } else if(d.content && d.content[0]){
-      ta.value = d.content[0].text || orig;
-      toast("Text verbessert!");
-    } else {
-      ta.value = orig; toast("Kein Ergebnis.");
-    }
-  } catch(e){
-    ta.disabled = false;
-    ta.value = orig;
-    toast("Verbindungsfehler.");
-  }
-}
-
-async function generateReviewText(bid, hotel, starsText){
-  var ta = document.getElementById("rev-text");
-  ta.value = "Bewertung wird generiert...";
-  ta.disabled = true;
-  var prompt = "Schreibe eine kurze Hotelbewertung auf Deutsch (3-5 Saetze) fuer das Hotel "+hotel+" in Australien. Bewertung: "+starsText+". Warm, authentisch, konkret. Keine persoenlichen Anreden.";
-  try{
-    var r = await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":_apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,messages:[{role:"user",content:prompt}]})
-    });
-    var d = await r.json();
-    ta.disabled = false;
-    if(d.content && d.content[0]) ta.value = d.content[0].text||"";
-    else ta.value = "";
-  } catch(e){
-    ta.disabled = false;
-    ta.value = "";
-    toast("KI nicht verfuegbar. Bitte selbst eingeben.");
-  }
-}
-
-function saveReview(){
-  var bid = document.getElementById("rev-bid").value;
-  if(!bid){ closeRevModal(); return; }
-  // Stop any running dictation first
-  if(_recognition){ _recognition.stop(); _recognition = null; }
-  var text = document.getElementById("rev-text").value.trim();
-  if(!hotelReviews[bid]) hotelReviews[bid]={stars:0,text:""};
-  hotelReviews[bid].text = text;
-  document.getElementById("rev-modal").style.display = "none";
-  buildDaySlides();
-  toast(text ? "Bewertung gespeichert!" : "Gespeichert (kein Text).");
-}
-
-function closeRevModal(){
-  document.getElementById("rev-modal").style.display = "none";
-}
-
-function dictateReviewEl(btn){
-  var bid = btn.getAttribute("data-bid");
-  var hotel = btn.getAttribute("data-hotel")||"";
-  document.getElementById("rev-bid").value = bid;
-  document.getElementById("rev-hotel-name").textContent = hotel;
-  var existing = (hotelReviews[bid]||{}).text||"";
-  document.getElementById("rev-text").value = existing;
-  document.getElementById("rev-modal").style.display = "flex";
-  toast("Tippe auf Diktieren zum Sprechen.");
-}
-
-var _recognition = null;
-function startDictation(){
-  var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRec){ toast("Diktierfunktion nicht verfuegbar."); return; }
-  if(_recognition){
-    _recognition.stop();
-    _recognition = null;
-    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    return;
-  }
-  _recognition = new SpeechRec();
-  _recognition.lang = "de-DE";
-  _recognition.continuous = false;
-  _recognition.interimResults = false;
-  _recognition.onresult = function(e){
-    var transcript = e.results[0][0].transcript;
-    if(transcript){
-      var ta = document.getElementById("rev-text");
-      ta.value = ta.value ? ta.value + " " + transcript : transcript;
-      toast("+" + transcript.substring(0,25));
-    }
-    // Neu starten fuer naechsten Satz
-    if(_recognition){
-      try{ _recognition.start(); } catch(ex){}
-    }
-  };
-  _recognition.onerror = function(e){
-    if(e.error !== "no-speech") toast("Fehler: " + e.error);
-    if(e.error === "not-allowed"){
-      _recognition = null;
-      document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    }
-  };
-  _recognition.onend = function(){
-    if(_recognition === null){
-      document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    }
-  };
-  try{
-    _recognition.start();
-    document.getElementById("rev-mic-btn").textContent = "⏹ Stop";
-    toast("Sprechen...");
-  } catch(e){
-    _recognition = null;
-    toast("Fehler: " + e.message);
-  }
-}
-// ── API KEY ───────────────────────────────────────────────────────────────
-function saveApiKey(){
-  var k = document.getElementById("apikey-input").value.trim();
-  if(!k || k.length < 20){ toast("Bitte gueltigen Key eingeben."); return; }
-  _apiKey = k;
-  // Verschluesselt lokal speichern (einfache XOR-Verschluesselung)
-  try{
-    var enc = btoa(k.split("").map(function(c,i){
-      return String.fromCharCode(c.charCodeAt(0) ^ "MReisen2026".charCodeAt(i % 11));
-    }).join(""));
-    localStorage.setItem("_mk", enc);
-  } catch(e){}
-  document.getElementById("apikey-overlay").style.display = "none";
-  document.getElementById("apikey-input").value = "";
-  toast("API-Key gespeichert!");
-}
-function skipApiKey(){
-  document.getElementById("apikey-overlay").style.display = "none";
-}
-function loadApiKey(){
-  try{
-    var enc = localStorage.getItem("_mk");
-    if(!enc) return "";
-    return atob(enc).split("").map(function(c,i){
-      return String.fromCharCode(c.charCodeAt(0) ^ "MReisen2026".charCodeAt(i % 11));
-    }).join("");
-  } catch(e){ return ""; }
-}
-function deleteApiKey(){
-  try{ localStorage.removeItem("_mk"); } catch(e){}
-  _apiKey = "";
-  toast("API-Key geloescht.");
-}
-
 // ── EDIT MODE ─────────────────────────────────────────────────────────────
 function toggleEditMode() {
   if(editMode) {
     editMode = false;
-    _apiKey = ""; // Key aus Arbeitsspeicher - bleibt verschluesselt in localStorage
     document.getElementById("edit-toggle-btn").textContent = "🔑 Admin";
     document.getElementById("edit-toggle-btn").style.background = "";
     document.getElementById("tab-kosten").style.display = "none";
@@ -1641,12 +1183,6 @@ function checkEditPin(){
     document.getElementById("tab-neu").style.display="block";
     buildDaySlides();
     toast("Admin-Modus aktiv!");
-    if(!_apiKey){
-      // Versuche gespeicherten Key zu laden
-      var saved = loadApiKey();
-      if(saved){ _apiKey = saved; toast("API-Key geladen."); }
-      else { document.getElementById("apikey-overlay").style.display = "flex"; }
-    }
   } else {
     document.getElementById("ep-err").textContent="Falsche PIN.";
     editPinBuffer="";
@@ -1747,6 +1283,331 @@ function closeExpenseModal(){
   document.getElementById("expense-modal").style.display="none";
 }
 
+
+// ── FORMAT ────────────────────────────────────────────────────────────────
+function formatEUR(n){
+  return n.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+// ── EDIT MODE ─────────────────────────────────────────────────────────────
+function toggleEditMode(){
+  if(editMode){
+    editMode=false;
+    document.getElementById("edit-toggle-btn").textContent="🔑 Admin";
+    document.getElementById("edit-toggle-btn").style.background="";
+    document.getElementById("tab-neu").style.display="none";
+    var at=document.querySelector(".tab-btn.active");
+    if(at&&at.id==="tab-neu")showTab("tage");
+    buildDaySlides();
+    toast("Admin-Modus beendet.");
+  } else {
+    editPinBuffer="";updateEpDots();
+    document.getElementById("edit-pin-overlay").style.display="flex";
+  }
+}
+function epIn(d){if(editPinBuffer.length>=4)return;editPinBuffer+=d;updateEpDots();if(editPinBuffer.length===4)setTimeout(checkEditPin,150);}
+function epDel(){editPinBuffer=editPinBuffer.slice(0,-1);updateEpDots();}
+function updateEpDots(){for(var i=0;i<4;i++)document.getElementById("epd"+i).classList.toggle("filled",i<editPinBuffer.length);}
+function closeEditPin(){document.getElementById("edit-pin-overlay").style.display="none";editPinBuffer="";}
+function checkEditPin(){
+  if(editPinBuffer===CORRECT_PIN){
+    document.getElementById("edit-pin-overlay").style.display="none";
+    editMode=true;
+    document.getElementById("edit-toggle-btn").textContent="Admin aktiv";
+    document.getElementById("edit-toggle-btn").style.background="var(--sunset)";
+    document.getElementById("tab-neu").style.display="block";
+    buildDaySlides();
+    toast("Admin-Modus aktiv!");
+    if(!_apiKey){
+      var saved=loadApiKey();
+      if(saved){_apiKey=saved;toast("API-Key geladen.");}
+      else{document.getElementById("apikey-overlay").style.display="flex";}
+    }
+  } else {
+    document.getElementById("ep-err").textContent="Falsche PIN.";
+    editPinBuffer="";updateEpDots();
+    setTimeout(function(){document.getElementById("ep-err").textContent="";},2000);
+  }
+}
+
+// ── API KEY ────────────────────────────────────────────────────────────────
+function saveApiKey(){
+  var k=document.getElementById("apikey-input").value.trim();
+  if(!k||k.length<20){toast("Bitte gueltigen Key eingeben.");return;}
+  _apiKey=k;
+  try{
+    var enc=btoa(k.split("").map(function(c,i){return String.fromCharCode(c.charCodeAt(0)^"MReisen2026".charCodeAt(i%11));}).join(""));
+    localStorage.setItem("_mk",enc);
+  }catch(e){}
+  document.getElementById("apikey-overlay").style.display="none";
+  document.getElementById("apikey-input").value="";
+  toast("API-Key gespeichert!");
+}
+function loadApiKey(){
+  try{
+    var enc=localStorage.getItem("_mk");if(!enc)return"";
+    return atob(enc).split("").map(function(c,i){return String.fromCharCode(c.charCodeAt(0)^"MReisen2026".charCodeAt(i%11));}).join("");
+  }catch(e){return"";}
+}
+function skipApiKey(){document.getElementById("apikey-overlay").style.display="none";}
+
+// ── PHOTO ─────────────────────────────────────────────────────────────────
+function delPhotoEl(btn){
+  if(!editMode)return;
+  if(!confirm("Foto loeschen?"))return;
+  var iso=btn.getAttribute("data-iso");
+  var idx=parseInt(btn.getAttribute("data-idx"));
+  photos[iso].splice(idx,1);
+  buildDaySlides();toast("Foto geloescht.");
+}
+function handlePhotosEl(inp){handlePhotos({target:inp},inp.getAttribute("data-iso"));}
+function refreshPhotoGrid(iso){buildDaySlides();toast("Foto gespeichert!");}
+function startEntryEl(btn){startEntryForDate(btn.getAttribute("data-iso"));}
+function editEntry(id){
+  var entry=entries.find(function(e){return e.id===id;});if(!entry)return;
+  document.getElementById("f-datum").value=entry.datum;
+  document.getElementById("f-ort").value=entry.ort||"";
+  document.getElementById("f-titel").value=entry.titel;
+  document.getElementById("f-kategorie").value=entry.kat;
+  document.getElementById("f-text").value=entry.text;
+  showTab("neu");toast("Eintrag zum Bearbeiten geoeffnet.");
+}
+
+// ── LIGHTBOX ──────────────────────────────────────────────────────────────
+function openLB(el){
+  var iso=el.getAttribute("data-iso");
+  var startIdx=parseInt(el.getAttribute("data-idx")||"0");
+  openGalleryLB(iso,photos[iso]||[],startIdx);
+}
+function openGalleryLB(iso,allPhotos,startIdx){
+  if(!allPhotos.length)return;
+  _lbIso=iso;_lbIdx=startIdx;
+  var track=document.getElementById("lb-track");
+  var nav=document.getElementById("lb-nav");
+  track.innerHTML="";nav.innerHTML="";
+  allPhotos.forEach(function(src,pi){
+    var slide=document.createElement("div");slide.className="lightbox-slide";
+    var img=document.createElement("img");img.src=src;img.alt="Foto";
+    slide.appendChild(img);track.appendChild(slide);
+    var dot=document.createElement("div");
+    dot.className="lightbox-dot"+(pi===startIdx?" active":"");
+    dot.onclick=(function(i){return function(){scrollToLBSlide(i,iso,allPhotos.length);};})(pi);
+    nav.appendChild(dot);
+  });
+  document.getElementById("lightbox").classList.add("open");
+  var editBtn=document.getElementById("lb-edit-btn");
+  if(editBtn)editBtn.style.display=editMode?"block":"none";
+  setTimeout(function(){
+    track.scrollLeft=startIdx*track.offsetWidth;
+    updateLBCaption(iso,startIdx,allPhotos.length);
+  },50);
+  track.onscroll=function(){
+    var idx=Math.round(track.scrollLeft/Math.max(track.offsetWidth,1));
+    if(idx!==_lbIdx){_lbIdx=idx;updateLBCaption(iso,idx,allPhotos.length);}
+  };
+}
+function updateLBCaption(iso,idx,total){
+  document.getElementById("lb-counter").textContent=(idx+1)+" / "+total;
+  document.getElementById("lb-caption").textContent=photoComments[iso+"_"+idx]||"";
+  document.querySelectorAll(".lightbox-dot").forEach(function(d,i){d.classList.toggle("active",i===idx);});
+}
+function scrollToLBSlide(idx,iso,total){
+  var track=document.getElementById("lb-track");
+  track.scrollLeft=idx*track.offsetWidth;
+  updateLBCaption(iso,idx,total);
+}
+function openLBCaption(){
+  if(!editMode||!_lbIso)return;
+  _captionKey=_lbIso+"_"+_lbIdx;
+  document.getElementById("caption-input").value=photoComments[_captionKey]||"";
+  document.getElementById("caption-modal").style.display="flex";
+  setTimeout(function(){document.getElementById("caption-input").focus();},200);
+}
+function closeLightbox(){
+  document.getElementById("lightbox").classList.remove("open");
+  document.getElementById("lb-track").innerHTML="";
+}
+
+// ── PHOTO CAPTIONS ────────────────────────────────────────────────────────
+function openCaptionModal(btn){
+  _captionKey=btn.getAttribute("data-iso")+"_"+btn.getAttribute("data-idx");
+  document.getElementById("caption-input").value=photoComments[_captionKey]||"";
+  document.getElementById("caption-modal").style.display="flex";
+  setTimeout(function(){document.getElementById("caption-input").focus();},200);
+}
+function saveCaption(){
+  var val=document.getElementById("caption-input").value.trim();
+  if(_captionKey)photoComments[_captionKey]=val;
+  document.getElementById("caption-modal").style.display="none";
+  if(document.getElementById("lightbox").classList.contains("open")){
+    document.getElementById("lb-caption").textContent=val;
+  }
+  buildDaySlides();toast("Kommentar gespeichert!");
+}
+function closeCaptionModal(){document.getElementById("caption-modal").style.display="none";}
+
+// ── HOTEL PHOTOS ──────────────────────────────────────────────────────────
+function addHotelPhotoEl(btn){
+  if(!editMode)return;
+  _hotelBid=btn.getAttribute("data-bid");
+  if(!_hotelInput){
+    _hotelInput=document.createElement("input");
+    _hotelInput.type="file";_hotelInput.accept="image/*";_hotelInput.multiple=true;
+    _hotelInput.style.display="none";
+    _hotelInput.onchange=function(){
+      var files=Array.from(_hotelInput.files);if(!files.length)return;
+      if(!hotelPhotos[_hotelBid])hotelPhotos[_hotelBid]=[];
+      var n=0;
+      files.forEach(function(f){
+        var r=new FileReader();
+        r.onload=function(e){hotelPhotos[_hotelBid].push(e.target.result);if(++n===files.length){buildDaySlides();toast("Hotelfoto gespeichert!");}};
+        r.readAsDataURL(f);
+      });
+    };
+    document.body.appendChild(_hotelInput);
+  }
+  _hotelBid=btn.getAttribute("data-bid");
+  _hotelInput.value="";_hotelInput.click();
+}
+function delHotelPhotoEl(btn){
+  if(!editMode)return;if(!confirm("Hotelfoto loeschen?"))return;
+  var bid=btn.getAttribute("data-bid");var idx=parseInt(btn.getAttribute("data-idx")||"0");
+  if(hotelPhotos[bid]){hotelPhotos[bid].splice(idx,1);if(!hotelPhotos[bid].length)delete hotelPhotos[bid];}
+  buildDaySlides();toast("Foto geloescht.");
+}
+function openHotelLBEl(img){
+  var bid=img.getAttribute("data-bid");var idx=parseInt(img.getAttribute("data-idx")||"0");
+  var photos_arr=hotelPhotos[bid]||[];
+  if(!photos_arr.length)return;
+  document.getElementById("lightbox-img")||0;
+  openGalleryLB("hotel_"+bid,photos_arr,idx);
+}
+
+// ── DAY EXPENSES ──────────────────────────────────────────────────────────
+function addExpEl(btn){addDayExpense(btn.getAttribute("data-iso"));}
+function delExpEl(btn){
+  if(!editMode)return;
+  var iso=btn.getAttribute("data-iso");var idx=parseInt(btn.getAttribute("data-idx"));
+  dayExpenses[iso].splice(idx,1);
+  if(!dayExpenses[iso].length)delete dayExpenses[iso];
+  buildDaySlides();if(pinUnlocked)renderCosts();toast("Ausgabe geloescht.");
+}
+function addDayExpense(iso){
+  if(!editMode)return;
+  currentExpenseIso=iso;
+  var d=new Date(iso+"T12:00:00");
+  document.getElementById("exp-date-lbl").textContent=d.toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"short"});
+  document.getElementById("exp-label").value="";document.getElementById("exp-amount").value="";
+  document.getElementById("expense-modal").style.display="flex";
+}
+function saveExpense(){
+  var iso=currentExpenseIso;
+  var catText=document.getElementById("exp-cat").value;
+  var label=document.getElementById("exp-label").value.trim();
+  var amtStr=document.getElementById("exp-amount").value;
+  if(!label){toast("Bitte Bezeichnung eingeben.");return;}
+  var amt=parseFloat(amtStr.replace(",","."));
+  if(isNaN(amt)||amt<=0){toast("Ungueltiger Betrag.");return;}
+  var parts=catText.split(" ");
+  if(!dayExpenses[iso])dayExpenses[iso]=[];
+  dayExpenses[iso].push({cat:parts[0],label:label,amount:amt});
+  document.getElementById("expense-modal").style.display="none";
+  buildDaySlides();renderCosts();toast("Ausgabe gespeichert!");
+}
+function closeExpenseModal(){document.getElementById("expense-modal").style.display="none";}
+
+// ── HOTEL REVIEWS ─────────────────────────────────────────────────────────
+function setStarEl(btn){
+  if(!editMode)return;
+  var bid=btn.getAttribute("data-bid");var stars=parseInt(btn.getAttribute("data-star"));
+  if(!hotelReviews[bid])hotelReviews[bid]={stars:0,text:""};
+  hotelReviews[bid].stars=stars;buildDaySlides();toast(stars+" Sterne gespeichert!");
+}
+function clearReviewEl(btn){
+  var bid=btn.getAttribute("data-bid");
+  if(hotelReviews[bid])hotelReviews[bid].text="";
+  buildDaySlides();toast("Bewertung geloescht.");
+}
+function genReviewEl(btn){
+  if(!editMode)return;
+  var bid=btn.getAttribute("data-bid");
+  var hotel=btn.getAttribute("data-hotel");
+  var stars=parseInt(btn.getAttribute("data-stars")||"0");
+  var existing=(hotelReviews[bid]||{}).text||"";
+  document.getElementById("rev-bid").value=bid;
+  document.getElementById("rev-hotel-name").textContent=hotel;
+  document.getElementById("rev-text").value=existing;
+  document.getElementById("rev-modal").style.display="flex";
+}
+async function polishReviewText(){
+  var ta=document.getElementById("rev-text");
+  var raw=ta.value.trim();
+  if(!raw){toast("Bitte erst Text eingeben.");return;}
+  if(!_apiKey){document.getElementById("apikey-overlay").style.display="flex";return;}
+  var orig=raw;ta.disabled=true;ta.value="Text wird verbessert...";
+  var hotel=document.getElementById("rev-hotel-name").textContent;
+  var promptText="Verbessere diesen Hotelbewertungstext. Fluessiger und lebendiger. Inhalt beibehalten. Keine persoenlichen Anreden. Nur den Text.\n\nHotel: "+hotel+"\nText: "+orig;
+  try{
+    var resp=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":_apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,messages:[{role:"user",content:promptText}]})
+    });
+    var d=await resp.json();ta.disabled=false;
+    if(d.error){if(d.error.type==="authentication_error"){_apiKey="";}ta.value=orig;toast("Fehler: "+d.error.message);}
+    else if(d.content&&d.content[0]){ta.value=d.content[0].text||orig;toast("Text verbessert!");}
+    else{ta.value=orig;toast("Kein Ergebnis.");}
+  }catch(e){ta.disabled=false;ta.value=orig;toast("Verbindungsfehler.");}
+}
+async function generateReviewText(bid,hotel,starsText){
+  // Not auto-called anymore
+}
+function saveReview(){
+  var bid=document.getElementById("rev-bid").value;if(!bid){closeRevModal();return;}
+  if(_recognition){_recognition.stop();_recognition=null;}
+  var text=document.getElementById("rev-text").value.trim();
+  if(!hotelReviews[bid])hotelReviews[bid]={stars:0,text:""};
+  hotelReviews[bid].text=text;
+  document.getElementById("rev-modal").style.display="none";
+  buildDaySlides();toast(text?"Bewertung gespeichert!":"Gespeichert.");
+}
+function closeRevModal(){document.getElementById("rev-modal").style.display="none";}
+function dictateReviewEl(btn){
+  var bid=btn.getAttribute("data-bid");var hotel=btn.getAttribute("data-hotel")||"";
+  document.getElementById("rev-bid").value=bid;
+  document.getElementById("rev-hotel-name").textContent=hotel;
+  var existing=(hotelReviews[bid]||{}).text||"";
+  document.getElementById("rev-text").value=existing;
+  document.getElementById("rev-modal").style.display="flex";
+  toast("Tippe auf Diktieren zum Sprechen.");
+}
+function startDictation(){
+  var SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SpeechRec){toast("Diktierfunktion nicht verfuegbar.");return;}
+  if(_recognition){_recognition.stop();_recognition=null;document.getElementById("rev-mic-btn").textContent="🎤 Diktieren";return;}
+  _recognition=new SpeechRec();
+  _recognition.lang="de-DE";_recognition.continuous=false;_recognition.interimResults=false;
+  _recognition.onresult=function(e){
+    var transcript=e.results[0][0].transcript;
+    if(transcript){
+      var ta=document.getElementById("rev-text");
+      ta.value=ta.value?ta.value+" "+transcript:transcript;
+      toast("+"+transcript.substring(0,25));
+    }
+    if(_recognition){try{_recognition.start();}catch(ex){}}
+  };
+  _recognition.onerror=function(e){
+    if(e.error!=="no-speech")toast("Fehler: "+e.error);
+    if(e.error==="not-allowed"){_recognition=null;document.getElementById("rev-mic-btn").textContent="🎤 Diktieren";}
+  };
+  _recognition.onend=function(){if(_recognition===null){document.getElementById("rev-mic-btn").textContent="🎤 Diktieren";}};
+  try{
+    _recognition.start();
+    document.getElementById("rev-mic-btn").textContent="⏹ Stop";
+    toast("Sprechen...");
+  }catch(e){_recognition=null;toast("Fehler: "+e.message);}
+}
+
 // INIT
 showTab('tage');
 </script>
@@ -1805,41 +1666,106 @@ showTab('tage');
   </div>
 </div>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-header">
+    <div class="lightbox-counter" id="lb-counter"></div>
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  </div>
+  <div class="lightbox-track" id="lb-track"></div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:6px 16px;min-height:40px;">
+    <div class="lightbox-caption" id="lb-caption" style="flex:1;text-align:center;padding:0;"></div>
+    <button id="lb-edit-btn" onclick="openLBCaption()" style="display:none;background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:5px 10px;font-size:.75rem;cursor:pointer;">✏️</button>
+  </div>
+  <div class="lightbox-nav" id="lb-nav"></div>
+</div>
+
+<!-- Edit PIN -->
+<div id="edit-pin-overlay" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.72);z-index:500;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)closeEditPin()">
+  <div style="background:#fff;border-radius:16px;padding:28px 22px;max-width:300px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <div style="font-size:1.8rem;margin-bottom:10px">🔑</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:18px">Admin-Modus</div>
+    <div class="pin-dots" style="margin-bottom:16px">
+      <div class="pin-dot" id="epd0"></div><div class="pin-dot" id="epd1"></div>
+      <div class="pin-dot" id="epd2"></div><div class="pin-dot" id="epd3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="epIn('1')">1</button><button class="pin-key" onclick="epIn('2')">2</button><button class="pin-key" onclick="epIn('3')">3</button>
+      <button class="pin-key" onclick="epIn('4')">4</button><button class="pin-key" onclick="epIn('5')">5</button><button class="pin-key" onclick="epIn('6')">6</button>
+      <button class="pin-key" onclick="epIn('7')">7</button><button class="pin-key" onclick="epIn('8')">8</button><button class="pin-key" onclick="epIn('9')">9</button>
+      <button class="pin-key" style="font-size:.8rem;color:var(--fog)" onclick="epDel()">⌫</button>
+      <button class="pin-key" onclick="epIn('0')">0</button>
+      <button class="pin-key" style="font-size:.75rem;color:var(--fog)" onclick="closeEditPin()">✕</button>
+    </div>
+    <div id="ep-err" style="color:#dc2626;font-size:.77rem;margin-top:8px;min-height:15px"></div>
+  </div>
+</div>
+
+<!-- API Key -->
+<div id="apikey-overlay" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.72);z-index:600;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:340px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <div style="font-size:1.6rem;text-align:center;margin-bottom:10px;">🔑</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:6px;text-align:center;">API-Key eingeben</div>
+    <div style="font-size:.78rem;color:var(--fog);margin-bottom:16px;text-align:center;line-height:1.5;">Wird verschluesselt lokal gespeichert.</div>
+    <input id="apikey-input" type="password" placeholder="sk-ant-api03-..." style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;background:var(--paper);margin-bottom:14px;">
+    <div style="display:flex;gap:10px;">
+      <button onclick="skipApiKey()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;font-family:'Inter',sans-serif;cursor:pointer;color:var(--fog);">Spaeter</button>
+      <button onclick="saveApiKey()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;">Speichern</button>
+    </div>
+    <div style="margin-top:10px;text-align:center;"><button onclick="(function(){localStorage.removeItem('_mk');_apiKey='';toast('Key geloescht.')()" style="background:none;border:none;font-size:.7rem;color:#dc2626;cursor:pointer;text-decoration:underline;">Key loeschen</button></div>
+  </div>
+</div>
+
+<!-- Expense Modal -->
+<div id="expense-modal" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.7);z-index:500;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)closeExpenseModal()">
+  <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:340px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;">Ausgabe erfassen</div>
+      <div id="exp-date-lbl" style="font-size:.8rem;color:var(--fog);"></div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <label style="font-size:.72rem;color:var(--fog);text-transform:uppercase;display:block;margin-bottom:4px;">Kategorie</label>
+      <select id="exp-cat" style="width:100%;padding:9px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.88rem;background:var(--paper);">
+        <option>🍽️ Essen &amp; Trinken</option><option>🎫 Eintritt</option>
+        <option>🛍️ Shopping</option><option>🚕 Taxi / Transport</option>
+        <option>🏖️ Aktivitaet</option><option>💆 Sonstiges</option>
+      </select>
+    </div>
+    <div style="margin-bottom:12px;">
+      <label style="font-size:.72rem;color:var(--fog);text-transform:uppercase;display:block;margin-bottom:4px;">Bezeichnung</label>
+      <input id="exp-label" type="text" placeholder="z.B. Abendessen am Strand" style="width:100%;padding:9px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.88rem;background:var(--paper);">
+    </div>
+    <div style="margin-bottom:20px;">
+      <label style="font-size:.72rem;color:var(--fog);text-transform:uppercase;display:block;margin-bottom:4px;">Betrag (EUR)</label>
+      <input id="exp-amount" type="number" step="0.01" min="0" placeholder="0.00" style="width:100%;padding:9px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.88rem;background:var(--paper);">
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="closeExpenseModal()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;cursor:pointer;color:var(--fog);">Abbrechen</button>
+      <button onclick="saveExpense()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer;">Speichern</button>
+    </div>
+  </div>
+</div>
 
 <!-- Hotel Review Modal -->
 <div id="rev-modal" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.7);z-index:500;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)closeRevModal()">
   <div style="background:#fff;border-radius:16px;padding:24px 20px;max-width:400px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
       <div style="font-family:'Playfair Display',serif;font-size:1.1rem;">Hotelbewertung</div>
-      <button onclick="closeRevModal()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--fog);">&#10005;</button>
+      <button onclick="closeRevModal()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--fog);">✕</button>
     </div>
     <div id="rev-hotel-name" style="font-size:.8rem;color:var(--fog);margin-bottom:14px;"></div>
     <input type="hidden" id="rev-bid">
-    <label style="font-size:.72rem;color:var(--fog);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;">Bewertungstext</label>
-    <textarea id="rev-text" rows="5" style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.86rem;background:var(--paper);resize:vertical;" placeholder="Bewertung eingeben oder generieren..."></textarea>
+    <label style="font-size:.72rem;color:var(--fog);text-transform:uppercase;display:block;margin-bottom:6px;">Bewertungstext</label>
+    <textarea id="rev-text" rows="5" style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.86rem;background:var(--paper);resize:vertical;" placeholder="Bewertung eingeben..."></textarea>
     <div id="rev-interim" style="font-size:.75rem;color:var(--fog);font-style:italic;min-height:16px;margin-top:4px;"></div>
-    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-      <button id="rev-mic-btn" onclick="startDictation()" style="padding:8px 14px;background:var(--ocean);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">🎤 Diktieren</button>
-      <button onclick="polishReviewText()" style="padding:8px 14px;background:var(--reef);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">✨ Verschönern</button>
-      <button onclick="saveReview()" style="flex:1;padding:8px 14px;background:var(--sunset);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-weight:600;font-size:.86rem;cursor:pointer;">✓ Speichern</button>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <button id="rev-mic-btn" onclick="startDictation()" style="padding:8px 14px;background:var(--ocean);color:#fff;border:none;border-radius:8px;font-size:.82rem;cursor:pointer;">🎤 Diktieren</button>
+      <button onclick="polishReviewText()" style="padding:8px 14px;background:var(--reef);color:#fff;border:none;border-radius:8px;font-size:.82rem;cursor:pointer;">✨ Verschoenern</button>
+      <button onclick="saveReview()" style="flex:1;padding:8px 14px;background:var(--sunset);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">✓ Speichern</button>
     </div>
   </div>
 </div>
-<!-- API Key Overlay -->
-<div id="apikey-overlay" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.72);z-index:600;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:340px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);">
-    <div style="font-size:1.6rem;text-align:center;margin-bottom:10px;">🔑</div>
-    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:6px;text-align:center;">API-Key eingeben</div>
-    <div style="font-size:.78rem;color:var(--fog);margin-bottom:16px;text-align:center;line-height:1.5;">Nur für diese Sitzung im Speicher.<br>Wird nicht gespeichert oder übertragen.</div>
-    <input id="apikey-input" type="password" placeholder="sk-ant-api03-..." style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;background:var(--paper);margin-bottom:14px;">
-    <div style="display:flex;gap:10px;">
-      <button onclick="skipApiKey()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;font-family:'Inter',sans-serif;cursor:pointer;color:var(--fog);font-size:.84rem;">Später</button>
-      <button onclick="saveApiKey()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;font-size:.88rem;">✓ Speichern</button>
-    </div>
-    <div style="margin-top:12px;font-size:.7rem;color:var(--fog);text-align:center;">Key erstellen: <strong>console.anthropic.com</strong></div>
-    <div style="margin-top:8px;text-align:center;"><button onclick="deleteApiKey()" style="background:none;border:none;font-size:.7rem;color:#dc2626;cursor:pointer;text-decoration:underline;">Gespeicherten Key loeschen</button></div>
-  </div>
-</div>
+
 <!-- Caption Modal -->
 <div id="caption-modal" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.7);z-index:500;align-items:flex-end;justify-content:center;padding:0;" onclick="if(event.target===this)closeCaptionModal()">
   <div style="background:#fff;border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px;box-shadow:0 -8px 32px rgba(0,0,0,.2);">
@@ -1849,10 +1775,11 @@ showTab('tage');
     </div>
     <input id="caption-input" type="text" placeholder="z.B. Sonnenaufgang am Whitehaven Beach..." style="width:100%;padding:10px 14px;border:1.5px solid rgba(28,26,22,.15);border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;background:var(--paper);margin-bottom:12px;">
     <div style="display:flex;gap:10px;">
-      <button onclick="closeCaptionModal()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;font-family:'Inter',sans-serif;cursor:pointer;color:var(--fog);">Abbrechen</button>
-      <button onclick="saveCaption()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;">✓ Speichern</button>
+      <button onclick="closeCaptionModal()" style="flex:1;padding:10px;border:1.5px solid rgba(28,26,22,.2);border-radius:8px;background:none;cursor:pointer;color:var(--fog);">Abbrechen</button>
+      <button onclick="saveCaption()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer;">✓ Speichern</button>
     </div>
   </div>
 </div>
+
 </body>
 </html>
