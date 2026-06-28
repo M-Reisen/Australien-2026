@@ -1294,25 +1294,42 @@ async function polishReviewText(){
   var ta = document.getElementById("rev-text");
   var raw = ta.value.trim();
   if(!raw){ toast("Bitte zuerst Text eingeben oder diktieren."); return; }
+  // Get or ask for API key
+  var apiKey = "";
+  try{ apiKey = localStorage.getItem("anthropic_key")||""; } catch(e){}
+  if(!apiKey){
+    apiKey = prompt("Anthropic API-Key eingeben (einmalig):");
+    if(!apiKey){ toast("Kein API-Key - Abgebrochen."); return; }
+    try{ localStorage.setItem("anthropic_key", apiKey); } catch(e){}
+  }
+  var orig = raw;
   ta.disabled = true;
-  var orig = ta.value;
   ta.value = "Text wird verbessert...";
   var hotel = document.getElementById("rev-hotel-name").textContent;
-  var prompt = "Verbessere diesen diktierten Hotelbewertungstext sprachlich. Mache ihn fluessiger, lebendiger und authentischer. Behalte den Inhalt bei. Keine persoenlichen Anreden. Nur den verbesserten Text, nichts anderes.\n\nHotel: "+hotel+"\nOriginaltext: "+raw;
+  var prompt = "Verbessere diesen diktierten Hotelbewertungstext. Mache ihn fluessiger und lebendiger. Inhalt beibehalten. Keine persoenlichen Anreden. Nur den Text, keine Erklaerung.\n\nHotel: "+hotel+"\nText: "+orig;
   try{
     var r = await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
-      headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
       body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,messages:[{role:"user",content:prompt}]})
     });
     var d = await r.json();
     ta.disabled = false;
-    if(d.content && d.content[0]) { ta.value = d.content[0].text||orig; toast("Text verbessert!"); }
-    else { ta.value = orig; toast("KI nicht verfuegbar."); }
+    if(d.error){
+      if(d.error.type==="authentication_error"){ try{localStorage.removeItem("anthropic_key");}catch(e){} }
+      ta.value = orig;
+      toast("API Fehler: "+d.error.message);
+    } else if(d.content && d.content[0]){
+      ta.value = d.content[0].text || orig;
+      toast("Text verbessert!");
+    } else {
+      ta.value = orig;
+      toast("Kein Ergebnis.");
+    }
   } catch(e){
     ta.disabled = false;
     ta.value = orig;
-    toast("Fehler: "+e.message);
+    toast("Verbindungsfehler.");
   }
 }
 
@@ -1370,48 +1387,58 @@ var _recognition = null;
 function startDictation(){
   var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SpeechRec){ toast("Diktierfunktion nicht verfuegbar."); return; }
-  // Stop if already running
   if(_recognition){
     _recognition.stop();
+    _recognition = null;
+    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
     return;
   }
-  var ta = document.getElementById("rev-text");
   _recognition = new SpeechRec();
   _recognition.lang = "de-DE";
-  _recognition.continuous = true;
-  _recognition.interimResults = true;
-  var _finalText = ta.value || "";
-  var _interimSpan = document.getElementById("rev-interim");
-  if(_interimSpan) _interimSpan.textContent = "";
+  _recognition.continuous = false;
+  _recognition.interimResults = false;
   _recognition.onresult = function(e){
-    var interim = "";
-    for(var i = e.resultIndex; i < e.results.length; i++){
-      if(e.results[i].isFinal){
-        _finalText += ((_finalText && !_finalText.endsWith(" ")) ? " " : "") + e.results[i][0].transcript;
-        ta.value = _finalText;
-      } else {
-        interim += e.results[i][0].transcript;
-      }
+    var transcript = "";
+    for(var i=0;i<e.results.length;i++){
+      transcript += e.results[i][0].transcript;
     }
-    if(_interimSpan) _interimSpan.textContent = interim ? "("+interim+")" : "";
+    if(transcript){
+      var ta = document.getElementById("rev-text");
+      var cur = ta.value;
+      var newVal = cur ? cur + " " + transcript : transcript;
+      // iOS Safari fix: set value via native setter
+      var nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value");
+      if(nativeSetter && nativeSetter.set){
+        nativeSetter.set.call(ta, newVal);
+        ta.dispatchEvent(new Event("input", {bubbles:true}));
+      } else {
+        ta.value = newVal;
+      }
+      toast("Erkannt: " + transcript.substring(0,30)+(transcript.length>30?"...":""));
+    }
   };
   _recognition.onerror = function(e){
-    if(e.error !== "no-speech") toast("Diktat Fehler: "+e.error);
+    toast("Fehler: "+e.error);
     _recognition = null;
     document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    if(_interimSpan) _interimSpan.textContent = "";
   };
   _recognition.onend = function(){
-    _recognition = null;
-    document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
-    if(_interimSpan) _interimSpan.textContent = "";
-    if(_finalText) toast("Diktat beendet — Text uebernommen.");
+    if(_recognition !== null){
+      // Auto-restart for continuous feel
+      try{ _recognition.start(); } catch(e){ _recognition=null; document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren"; }
+    } else {
+      document.getElementById("rev-mic-btn").textContent = "🎤 Diktieren";
+    }
   };
-  _recognition.start();
-  document.getElementById("rev-mic-btn").textContent = "⏹ Stop";
-  toast("Sprechen...");
+  try{
+    _recognition.start();
+    document.getElementById("rev-mic-btn").textContent = "⏹ Stop";
+    toast("Sprechen...");
+  } catch(e){
+    toast("Mikrofon Fehler: "+e.message);
+    _recognition = null;
+  }
 }
-
 // ── EDIT MODE ─────────────────────────────────────────────────────────────
 function toggleEditMode() {
   if(editMode) {
