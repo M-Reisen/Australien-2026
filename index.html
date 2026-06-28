@@ -562,6 +562,7 @@ let hotelReviews = {}; // {bid: {stars:0, text:''}}
 let dayExpenses = {}; // keyed by iso date
 let editMode = false;
 let editPinBuffer = '';
+let _apiKey = ''; // nur im Speicher, nie gespeichert
 let currentExpenseIso = '';
 let _hotelInput = null;
 let _hotelBid = '';
@@ -1294,14 +1295,12 @@ async function polishReviewText(){
   var ta = document.getElementById("rev-text");
   var raw = ta.value.trim();
   if(!raw){ toast("Bitte zuerst Text eingeben oder diktieren."); return; }
-  // Get or ask for API key
-  var apiKey = "";
-  try{ apiKey = localStorage.getItem("anthropic_key")||""; } catch(e){}
-  if(!apiKey){
-    apiKey = prompt("Anthropic API-Key eingeben (einmalig):");
-    if(!apiKey){ toast("Kein API-Key - Abgebrochen."); return; }
-    try{ localStorage.setItem("anthropic_key", apiKey); } catch(e){}
+  if(!_apiKey){ 
+    var k = prompt("API-Key eingeben:");
+    if(!k){ toast("Abgebrochen."); return; }
+    _apiKey = k.trim();
   }
+  var apiKey = _apiKey;
   var orig = raw;
   ta.disabled = true;
   ta.value = "Text wird verbessert...";
@@ -1316,7 +1315,7 @@ async function polishReviewText(){
     var d = await r.json();
     ta.disabled = false;
     if(d.error){
-      if(d.error.type==="authentication_error"){ try{localStorage.removeItem("anthropic_key");}catch(e){} }
+      if(d.error.type==="authentication_error"){ _apiKey = ""; toast("API-Key ungueltig."); }
       ta.value = orig;
       toast("API Fehler: "+d.error.message);
     } else if(d.content && d.content[0]){
@@ -1341,7 +1340,7 @@ async function generateReviewText(bid, hotel, starsText){
   try{
     var r = await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
-      headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      headers:{"Content-Type":"application/json","x-api-key":_apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
       body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,messages:[{role:"user",content:prompt}]})
     });
     var d = await r.json();
@@ -1443,6 +1442,7 @@ function startDictation(){
 function toggleEditMode() {
   if(editMode) {
     editMode = false;
+    _apiKey = ""; // Key aus Speicher loeschen
     document.getElementById("edit-toggle-btn").textContent = "🔑 Admin";
     document.getElementById("edit-toggle-btn").style.background = "";
     document.getElementById("tab-kosten").style.display = "none";
@@ -1471,6 +1471,12 @@ function checkEditPin(){
     document.getElementById("tab-neu").style.display="block";
     buildDaySlides();
     toast("Admin-Modus aktiv!");
+    if(!_apiKey){
+      setTimeout(function(){
+        var k = prompt("API-Key eingeben (nur für diese Sitzung im Speicher):");
+        if(k && k.trim().length > 20) { _apiKey = k.trim(); toast("API-Key gesetzt."); }
+      }, 400);
+    }
   } else {
     document.getElementById("ep-err").textContent="Falsche PIN.";
     editPinBuffer="";
