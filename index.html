@@ -253,12 +253,12 @@ textarea{resize:vertical;min-height:100px;}
   .day-card-header,.day-entry-area,.photo-strip{padding-left:16px;padding-right:16px;}
 }
 
-.hotel-banner{width:100%;height:150px;overflow:hidden;border-bottom:1px solid rgba(28,26,22,.07);position:relative;}
+.hotel-banner{width:100%;height:150px;overflow:hidden;border-bottom:1px solid rgba(28,26,22,.07);position:relative;flex-shrink:0;}
 .hotel-banner-inner{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
 .hotel-banner-inner::-webkit-scrollbar{display:none;}
 .hotel-banner-slide{min-width:100%;height:100%;flex-shrink:0;scroll-snap-align:start;}
 .hotel-banner-slide img{width:100%;height:100%;object-fit:cover;display:block;}
-.hotel-banner-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.hotel-banner-placeholder{width:100%;height:150px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
 .hotel-banner-name{font-family:'Playfair Display',serif;font-size:1rem;color:rgba(255,255,255,.9);font-weight:700;text-align:center;padding:0 16px;}
 .hotel-banner-loc{font-size:.72rem;color:rgba(255,255,255,.6);text-align:center;}
 .hotel-btn{position:absolute;padding:4px 10px;font-size:.72rem;border:none;border-radius:8px;cursor:pointer;backdrop-filter:blur(4px);}
@@ -1290,6 +1290,32 @@ async function genReviewEl(btn){
   if(!existing) generateReviewText(bid, hotel, starsText);
 }
 
+async function polishReviewText(){
+  var ta = document.getElementById("rev-text");
+  var raw = ta.value.trim();
+  if(!raw){ toast("Bitte zuerst Text eingeben oder diktieren."); return; }
+  ta.disabled = true;
+  var orig = ta.value;
+  ta.value = "Text wird verbessert...";
+  var hotel = document.getElementById("rev-hotel-name").textContent;
+  var prompt = "Verbessere diesen diktierten Hotelbewertungstext sprachlich. Mache ihn fluessiger, lebendiger und authentischer. Behalte den Inhalt bei. Keine persoenlichen Anreden. Nur den verbesserten Text, nichts anderes.\n\nHotel: "+hotel+"\nOriginaltext: "+raw;
+  try{
+    var r = await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,messages:[{role:"user",content:prompt}]})
+    });
+    var d = await r.json();
+    ta.disabled = false;
+    if(d.content && d.content[0]) { ta.value = d.content[0].text||orig; toast("Text verbessert!"); }
+    else { ta.value = orig; toast("KI nicht verfuegbar."); }
+  } catch(e){
+    ta.disabled = false;
+    ta.value = orig;
+    toast("Fehler: "+e.message);
+  }
+}
+
 async function generateReviewText(bid, hotel, starsText){
   var ta = document.getElementById("rev-text");
   ta.value = "Bewertung wird generiert...";
@@ -1566,7 +1592,7 @@ showTab('tage');
     <textarea id="rev-text" rows="5" style="width:100%;padding:10px 12px;border:1.5px solid rgba(28,26,22,.15);border-radius:8px;font-family:'Inter',sans-serif;font-size:.86rem;background:var(--paper);resize:vertical;" placeholder="Bewertung eingeben oder generieren..."></textarea>
     <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
       <button id="rev-mic-btn" onclick="startDictation()" style="padding:8px 14px;background:var(--ocean);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">🎤 Diktieren</button>
-      <button onclick="generateReviewText(document.getElementById('rev-bid').value, document.getElementById('rev-hotel-name').textContent, '')" style="padding:8px 14px;background:var(--reef);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">✨ KI</button>
+      <button onclick="polishReviewText()" style="padding:8px 14px;background:var(--reef);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;">✨ Verschönern</button>
       <button onclick="saveReview()" style="flex:1;padding:8px 14px;background:var(--sunset);color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-weight:600;font-size:.86rem;cursor:pointer;">✓ Speichern</button>
     </div>
   </div>
