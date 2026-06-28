@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Australien 2026 · Unser Reisetagebuch</title>
+<title>Australien 2026 · Reisetagebuch Queensland</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -81,6 +81,8 @@ main{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
 .photo-strip{padding:14px 22px;border-bottom:1px solid rgba(28,26,22,.07);}
 .photo-strip-label{font-size:.72rem;font-weight:500;color:var(--fog);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
 .photo-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.photo-wrap{position:relative;display:inline-block;}
+.photo-del{position:absolute;top:-6px;right:-6px;background:#dc2626;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;line-height:1;padding:0;}
 .photo-thumb{width:80px;height:80px;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .photo-thumb:hover{transform:scale(1.06);}
 .photo-add{width:80px;height:80px;border-radius:8px;border:2px dashed rgba(28,26,22,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;color:var(--fog);gap:4px;transition:all .18s;background:var(--paper);}
@@ -255,8 +257,14 @@ textarea{resize:vertical;min-height:100px;}
 
 <header>
   <div class="header-inner">
-    <div class="logo">🦘 <em>Australien</em> 2026 <small>13. Sept. – 10. Okt. · Queensland</small></div>
+    <div class="logo" style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:2.4rem;line-height:1;">🐨</span>
+      <span style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--sand);white-space:nowrap;"><em style="color:var(--sunset);font-style:italic;">M</em>-Reisen</span>
+    </div>
+      <span style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--sand);white-space:nowrap;"><em style="color:var(--sunset);font-style:italic;">M</em>-Reisen</span>
+    </div>
     <div class="header-actions">
+      <button class="btn btn-ghost btn-sm" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ Bearbeiten</button>
       <button class="btn btn-ghost btn-sm" onclick="shareLink()">🔗 Teilen</button>
       <button class="btn btn-primary btn-sm" onclick="showTab('neu')">+ Eintrag</button>
     </div>
@@ -265,10 +273,10 @@ textarea{resize:vertical;min-height:100px;}
 
 <div class="hero">
   <div class="hero-stars"></div>
-  <div class="hero-eyebrow">Queensland & Great Barrier Reef</div>
-  <h1>Unser großes<br><em>Australien</em>-Abenteuer</h1>
+  <div class="hero-eyebrow">Queensland &amp; Great Barrier Reef</div>
+  <h1>Das große<br><em>Australien</em>-Abenteuer</h1>
   <div class="hero-dates">13. September – 10. Oktober 2026</div>
-  <div class="hero-sub">München → Singapur → Cairns · Port Douglas · Magnetic Island · Whitsundays · Brisbane → Sydney → München</div>
+  <div class="hero-sub">Cairns · Port Douglas · Magnetic Island · Whitsundays · Brisbane · Sydney</div>
   <div class="hero-stats">
     <div class="hero-stat"><span class="num">27</span><span class="lbl">Tage</span></div>
     <div class="hero-stat"><span class="num">11</span><span class="lbl">Unterkünfte</span></div>
@@ -282,8 +290,8 @@ textarea{resize:vertical;min-height:100px;}
   <button class="tab-btn active" onclick="showTab('tage')" id="tab-tage">📅 Tag für Tag</button>
   <button class="tab-btn" onclick="showTab('route')" id="tab-route">📍 Route</button>
   <button class="tab-btn" onclick="showTab('ausfluege')" id="tab-ausfluege">🎟️ Ausflüge</button>
-  <button class="tab-btn" onclick="showTab('neu')" id="tab-neu">✍️ Eintrag</button>
-  <button class="tab-btn" onclick="showTab('kosten')" id="tab-kosten">🔒 Kosten</button>
+  <button class="tab-btn" onclick="showTab('neu')" id="tab-neu" style="display:none">✍️ Eintrag</button>
+  <button class="tab-btn" onclick="showTab('kosten')" id="tab-kosten" style="display:none">🔒 Kosten</button>
   <button class="tab-btn" onclick="showTab('planer')" id="tab-planer">✨ Tipps</button>
 </div>
 
@@ -326,7 +334,7 @@ textarea{resize:vertical;min-height:100px;}
 <div class="section" id="section-neu">
   <div class="form-card">
     <div class="form-title">Neuer Eintrag ✍️</div>
-    <div class="form-subtitle">Stichpunkte genügen — die KI formuliert daraus euren Reisebericht.</div>
+    <div class="form-subtitle">Notizen und Erlebnisse für diesen Tag festhalten.</div>
     <div class="form-grid">
       <div><label>Datum</label><input type="date" id="f-datum" min="2026-09-13" max="2026-10-10"></div>
       <div><label>Ort</label><input type="text" id="f-ort" placeholder="z.B. Magnetic Island"></div>
@@ -351,9 +359,9 @@ textarea{resize:vertical;min-height:100px;}
       </div>
     </div>
     <div style="margin-top:13px">
-      <button class="btn btn-reef" onclick="aiFormuliere()">✨ KI formuliert den Eintrag</button>
+      <button class="btn btn-reef" onclick="aiFormuliere()">✨ Eintrag formulieren</button>
       <div class="ai-box" id="ai-formbox" style="display:none;margin-top:11px">
-        <div class="ai-box-title">✨ KI-Formulierung</div>
+        <div class="ai-box-title">✨ Formulierungsvorschlag</div>
         <div class="ai-result" id="ai-form-result"></div>
         <div style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap">
           <button class="btn btn-bush btn-sm" onclick="useAIText()">✓ Verwenden</button>
@@ -364,7 +372,7 @@ textarea{resize:vertical;min-height:100px;}
     <div class="divider"></div>
     <div class="form-grid">
       <div class="form-full"><label>Finaler Text</label>
-        <textarea id="f-text" style="min-height:130px" placeholder="KI-Text erscheint oben — oder direkt selbst schreiben."></textarea>
+        <textarea id="f-text" style="min-height:130px" placeholder="Text hier einfügen oder Formulierungsvorschlag oben verwenden."></textarea>
       </div>
     </div>
     <div class="form-actions">
@@ -423,7 +431,7 @@ textarea{resize:vertical;min-height:100px;}
 <!-- KI-TIPPS -->
 <div class="section" id="section-planer">
   <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:6px">✨ Tipps & Empfehlungen</div>
-  <div style="font-size:.83rem;color:var(--fog);margin-bottom:24px">Handverlesene Empfehlungen für jeden Stop eurer Reise.</div>
+  <div style="font-size:.83rem;color:var(--fog);margin-bottom:24px">Handverlesene Empfehlungen für jeden Stop.</div>
   <div style="display:flex;flex-direction:column;gap:16px" id="tips-list"></div>
 </div>
 
@@ -511,7 +519,7 @@ function buildDays() {
   const end   = new Date('2026-10-10T12:00:00');
   for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)) {
     const iso = d.toISOString().split('T')[0];
-    // find what's happening this day
+    // find was happening this day
     const dayItems = TIMELINE.filter(t => t.datum === iso);
     const stay = BOOKINGS.find(b => {
       const s = new Date(b.datum+'T12:00:00');
@@ -536,6 +544,10 @@ let prefillBooking = null;
 const CORRECT_PIN = '2026';
 let pinBuffer = '';
 let pinUnlocked = false;
+
+// Edit mode
+let editMode = false;
+let editPinBuffer = '';
 
 // ── SWIPE ──────────────────────────────────────────────────────────────────
 let touchStartX = 0;
@@ -606,14 +618,16 @@ function buildDayHTML(day, i) {
 
   // Photos
   const dayPhotos = photos[day.iso] || [];
-  const photoHTML = dayPhotos.map((src,pi) =>
-    `<img class="photo-thumb" src="${src}" onclick="openLightbox('${day.iso}',${pi})" alt="Foto">`
-  ).join('') +
-  `<label class="photo-add" title="Foto hinzufügen">
-    <span class="photo-add-icon">📷</span>
-    <span>Foto</span>
-    <input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,'${day.iso}')">
-  </label>`;
+  const photoThumbs = dayPhotos.map((src,pi) =>
+    '<div class="photo-wrap">' +
+    '<img class="photo-thumb" src="' + src + '" onclick="openLightbox(\'' + day.iso + '\',' + pi + ')" alt="Foto">' +
+    (editMode ? '<button class="photo-del" onclick="delPhoto(\'' + day.iso + '\',' + pi + ')">✕</button>' : '') +
+    '</div>'
+  ).join('');
+  const photoUpload = editMode ?
+    '<label class="photo-add" title="Foto hinzufügen"><span class="photo-add-icon">📷</span><span>Foto</span><input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,\'' + day.iso + '\')"></label>'
+    : (dayPhotos.length === 0 ? '<span style="font-size:.76rem;color:var(--fog);font-style:italic">Noch keine Fotos</span>' : '');
+  const photoHTML = photoThumbs + photoUpload;
 
   return `
   <div class="day-card">
@@ -677,14 +691,25 @@ function refreshPhotoGrid(iso) {
   const grid = document.getElementById('photo-grid-'+iso);
   if(!grid) return;
   const dayPhotos = photos[iso]||[];
-  grid.innerHTML = dayPhotos.map((src,pi)=>
-    `<img class="photo-thumb" src="${src}" onclick="openLightbox('${iso}',${pi})" alt="Foto">`
-  ).join('') +
-  `<label class="photo-add">
-    <span class="photo-add-icon">📷</span><span>Foto</span>
-    <input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,'${iso}')">
-  </label>`;
+  const thumbs = dayPhotos.map((src,pi) =>
+    '<div class="photo-wrap">' +
+    '<img class="photo-thumb" src="' + src + '" onclick="openLightbox(\'' + iso + '\',' + pi + ')" alt="Foto">' +
+    (editMode ? '<button class="photo-del" onclick="delPhoto(\'' + iso + '\',' + pi + ')">✕</button>' : '') +
+    '</div>'
+  ).join('');
+  const addBtn = editMode ?
+    '<label class="photo-add"><span class="photo-add-icon">📷</span><span>Foto</span><input type="file" accept="image/*" multiple class="photo-input" onchange="handlePhotos(event,\'' + iso + '\')"></label>'
+    : '';
+  grid.innerHTML = thumbs + addBtn;
   toast('✓ Foto gespeichert!');
+}
+
+function delPhoto(iso, idx) {
+  if(!editMode) return;
+  if(!photos[iso]) return;
+  photos[iso].splice(idx, 1);
+  buildDaySlides();
+  toast('Foto gelöscht.');
 }
 
 function openLightbox(iso, idx) {
@@ -875,20 +900,51 @@ async function aiFormuliere(){
   if(!notizen){toast('Bitte erst Stichpunkte eingeben.');return;}
   const box=document.getElementById('ai-formbox');
   const res=document.getElementById('ai-form-result');
-  box.style.display='block';res.className='ai-result loading';res.textContent='KI schreibt euren Australien-Eintrag …';
-  const prompt=`Du bist ein enthusiastischer Reiseblogger auf Australien-Reise durch Queensland. Schreibe aus diesen Stichpunkten einen lebendigen, persönlichen Tagebucheintrag auf Deutsch (ca. 150–200 Wörter). Wir-Form (Pärchen). Stil: warm, bildhaft, authentisch – mit echter Begeisterung für australisches Wildlife, Natur und Abenteuer.
-
-Ort: ${ort||'Queensland, Australien'} | Kategorie: ${kat} | Titel: ${titel||'Reisetag'}
-Stichpunkte:
-${notizen}
-
-Nur den Tagebucheintrag, kein Titel davor, keine Anführungszeichen.`;
+  box.style.display='block';
+  res.className='ai-result loading';
+  res.textContent='Formulierung wird erstellt ...';
+  const prompt='Schreibe aus diesen Reise-Stichpunkten einen lebendigen Tagebucheintrag auf Deutsch (ca. 150-200 Woerter). Warm, bildhaft, authentisch. Keine persoenlichen Anreden, keine Ueberschrift.\n\nOrt: '+(ort||'Australien')+' | '+kat+' | '+(titel||'Reisetag')+'\n'+notizen;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();
-    res.className='ai-result';res.textContent=d.content?.map(c=>c.text||'').join('')||'Fehler.';
-  }catch(err){res.className='ai-result';res.textContent='Fehler: '+err.message;}
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:500,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    // Zeige rohe Antwort fuer Debugging
+    const text=await r.text();
+    let d;
+    try{ d=JSON.parse(text); }
+    catch(e){
+      res.className='ai-result';
+      res.textContent='Rohe Antwort: '+text.substring(0,300);
+      return;
+    }
+    if(d.error){
+      res.className='ai-result';
+      res.textContent='API: '+d.error.type+' - '+d.error.message;
+      return;
+    }
+    if(d.content && d.content.length>0){
+      res.className='ai-result';
+      res.textContent=d.content.map(function(c){return c.text||'';}).join('');
+    } else {
+      res.className='ai-result';
+      res.textContent='Unbekannte Antwort: '+JSON.stringify(d).substring(0,200);
+    }
+  }catch(err){
+    res.className='ai-result';
+    res.textContent='Netzwerkfehler: '+err.message;
+  }
 }
+
 function useAIText(){document.getElementById('f-text').value=document.getElementById('ai-form-result').textContent;toast('✓ Text übernommen!');}
 
 async function planRoute(){
@@ -950,10 +1006,10 @@ const TIPS = [
       {title:'Curtain Fig Tree', text:'Nur 5 Min außerhalb: ein 500 Jahre alter Würgefeigenbaum, dessen Luftwurzeln einen riesigen Vorhang bilden. Einer der beeindruckendsten Bäume Australiens — und völlig kostenlos.'},
       {title:'Lake Eacham', text:'Vulkanischer Kratersee mit kristallklarem Wasser — ideal zum Schwimmen, keine Krokodile, kein Stinger. Der kurze Rundweg am Ufer zeigt den Regenwald von seiner schönsten Seite.'},
       {title:'Malanda Falls', text:'Kleiner aber feiner Wasserfall mit natürlichem Swimminghole — perfekter Stopp auf dem Weg. Umgeben von subtropischem Regenwald mit vielen Vögeln.'},
-      {title:'Yungaburra Village', text:'Das Dörfchen hat schöne Heritage-Gebäude aus den 1920ern. Wenn ihr samstags dort seid: der Farmers Market ist einer der besten im Tablelands-Hinterland.'},
+      {title:'Yungaburra Village', text:'Das Dörfchen hat schöne Heritage-Gebäude aus den 1920ern. Samstags findet hier einer der besten Farmers Markets im Tablelands-Hinterland statt.'},
     ],
     secret:'🤫 Geheimtipp: The Lake House Café am Lake Eacham — kein Touristenlokal, sondern der Geheimtipp der Einheimischen für hausgemachten Kuchen und den besten Chai im Tablelands.',
-    food:"🍽️ Flynn's Restaurant: Abendessen mit lokalen Tablelands-Produkten — Rindfleisch, Avocados, Macadamias. Kleines aber feines Lokal, Reservierung empfohlen.",
+    food:"🍽️ Flynns Restaurant: Abendessen mit lokalen Tablelands-Produkten — Rindfleisch, Avocados, Macadamias. Kleines aber feines Lokal, Reservierung empfohlen.",
     tip:'💡 Yungaburra liegt auf 800m Höhe — deutlich kühler als die Küste. Eine leichte Jacke für den Abend einpacken!',
   },
   {
@@ -962,7 +1018,7 @@ const TIPS = [
       {title:'Archway Explorer Tour (gebucht!)', text:'Die 2-stündige Tour führt durch drei der beeindruckendsten Lavahöhlen-Abschnitte. Der Guide erklärt die Entstehungsgeschichte — vor 190.000 Jahren floss hier flüssiges Gestein 160 km weit.'},
       {title:'Sonnenuntergang vom Kalkani Krater', text:'Kurzer Aufstieg (20 Min) auf den alten Vulkankrater. Von oben leuchtet die weite Outback-Landschaft in orangerot — einer der magischsten Sonnenuntergänge Queenslands.'},
       {title:'Wildlife-Abend am Camp', text:'Discovery Resorts Undara bietet abends geführte Nachtwanderungen mit Wallabies, Possums und Bettongs. Unbedingt mitmachen — kostenlos für Hotelgäste!'},
-      {title:'Eisenbahnwaggon-Erlebnis', text:'Ihr schlaft in historischen umgebauten Eisenbahnwaggons aus den 1950ern. Aperol auf der kleinen Veranda beim Sonnenuntergang ist Pflicht — eines der ungewöhnlichsten Hotel-Erlebnisse Australiens.'},
+      {title:'Eisenbahnwaggon-Erlebnis', text:'Übernachtung in historischen umgebauten Eisenbahnwaggons aus den 1950ern. Aperol auf der kleinen Veranda beim Sonnenuntergang — eines der ungewöhnlichsten Hotel-Erlebnisse Australiens.'},
       {title:'Savanna-Frühstück', text:'Das Frühstück im Freien mit Blick auf die endlose Savanna ist einmalig. Kängurus kommen oft bis ans Restaurant heran — einfach still sitzen und beobachten.'},
     ],
     secret:'🤫 Geheimtipp: Fragt die Ranger nach den "Lava Tubes at Sunset" — manchmal öffnen sie eine kleinere Röhre exklusiv für Hotelgäste, die nicht im offiziellen Programm steht.',
@@ -972,9 +1028,9 @@ const TIPS = [
   {
     stop:'🏙️ Townsville', dates:'22.–23. Sept.', color:'var(--ocean)',
     mustdos:[
-      {title:'Castle Hill Sunrise', text:"Townsville's Wahrzeichen: ein riesiger rosafarbener Granitfelsen mitten in der Stadt. Der Aufstieg dauert 20 Min — der Blick über Townsville, den Hafen und Magnetic Island bei Sonnenaufgang ist unvergesslich."},
-      {title:'Reef HQ Aquarium', text:'Das weltgrößte Korallenriff-Aquarium direkt am Townsville Strand — perfekte Vorbereitung fürs Schnorcheln auf Magnetic Island. Ihr lernt die Fische schon mal kennen!'},
-      {title:'The Strand & kostenlose Lagoon', text:"Townsville's Strandpromenade mit riesigem kostenlosen Außenschwimmbecken und Blick auf Magnetic Island. Perfekt für den Abend vor der Fähre."},
+      {title:'Castle Hill Sunrise', text:"Townsvilles Wahrzeichen: ein riesiger rosafarbener Granitfelsen mitten in der Stadt. Der Aufstieg dauert 20 Min — der Blick über Townsville, den Hafen und Magnetic Island bei Sonnenaufgang ist unvergesslich."},
+      {title:'Reef HQ Aquarium', text:'Das weltgrößte Korallenriff-Aquarium direkt am Townsville Strand — perfekte Vorbereitung fürs Schnorcheln auf Magnetic Island. Ideal um die Fische schon mal kennenzulernen!'},
+      {title:'The Strand & kostenlose Lagoon', text:"Townsvilles Strandpromenade mit riesigem kostenlosen Außenschwimmbecken und Blick auf Magnetic Island. Perfekt für den Abend vor der Fähre."},
       {title:'Museum of Tropical Queensland', text:'Beherbergt die Überreste der HMS Pandora — das Schiff, das die Meuterer der Bounty verfolgte. Kostenlos, gut klimatisiert, ideal für die heiße Mittagsstunde.'},
       {title:'Fähre vorbereiten', text:'Sealink-Fähre fährt ca. alle Stunde, Überfahrt dauert 25 Min. Online-Tickets buchen spart Zeit. Vom Hotel zum Terminal ca. 10 Min zu Fuß.'},
     ],
@@ -1001,23 +1057,23 @@ const TIPS = [
       {title:'Whitehaven Katamaran (gebucht!)', text:'Einer der schönsten Strände der Welt. Hill Inlet bei Ebbe anschauen: das Farbenspiel aus Türkis und Weiß ist surreal. Bringt eine Unterwasserkamera mit!'},
       {title:'Airlie Beach Lagoon', text:'Mitten im Ort liegt eine riesige kostenlose Strandlagune mit Blick auf die Whitsundays. Perfekt für den ersten Abend — entspannen, Prosecco, Sonnenuntergang.'},
       {title:'Conway National Park', text:'Direkt hinter Airlie Beach: kurze Wanderwege durch Regenwald mit Meerblick. Der Whitsunday Ngaro Sea Trail Aussichtspunkt bietet spektakuläre Blicke auf die Inselgruppe.'},
-      {title:'Coral Sea Marina Bummel', text:"Airlie's schickstes Viertel mit Cafés, Restaurants und Yachthafen. Abends flanieren und Segelyachten aus aller Welt bestaunen."},
+      {title:'Coral Sea Marina Bummel', text:"Airlies schickstes Viertel mit Cafés, Restaurants und Yachthafen. Abends flanieren und Segelyachten aus aller Welt bestaunen."},
       {title:'Früh zur Fähre', text:'Plant eine ruhige Morgenroutine vor der Überfahrt zu den Whitsundays — mit Puffer zum Terminal und gut gefrühstückt.'},
     ],
     secret:'🤫 Geheimtipp: Bicentennial Walkway — ein versteckter Wanderweg über dem Ort mit phantastischem Blick auf die Whitsunday-Inselwelt bei Sonnenuntergang. Kaum Touristen.',
-    food:"🍽️ Sorrento's Ristorante: Einer der besten Fischrestaurants in Airlie. Bestellt die Seafood Platter for 2 — Barramundi, Prawns, Moreton Bay Bug. Reservieren!",
+    food:"🍽️ Sorrentos Ristorante: Einer der besten Fischrestaurants in Airlie. Bestellt die Seafood Platter for 2 — Barramundi, Prawns, Moreton Bay Bug. Reservieren!",
     tip:'💡 Airlie Beach ist touristisch und lebhaft — der echte Zauber beginnt auf den Inseln. Nutzt Airlie als Basis und verbringt so viel Zeit wie möglich draußen auf dem Wasser.',
   },
   {
     stop:'🐠 Whitsunday Islands', dates:'29. Sept.–2. Okt.', color:'var(--reef)',
     mustdos:[
-      {title:'Whitehaven Beach Sonnenaufgang', text:'Ihr seid direkt vor Ort — nutzt das! Früh morgens (vor 8 Uhr) gehört Whitehaven Beach fast nur euch. Bringt Kaffee mit und erlebt einen unvergesslichen Sonnenaufgang.'},
+      {title:'Whitehaven Beach Sonnenaufgang', text:'Früh morgens (vor 8 Uhr) gehört Whitehaven Beach fast für sich allein. Kaffee mitbringen und einen unvergesslichen Sonnenaufgang erleben.'},
       {title:'Hill Inlet Lookout', text:'Der Aussichtspunkt über Hill Inlet zeigt das berühmte Farbenspiel — türkisblaues Wasser und weißer Sand verschlingen sich ineinander. Ebbe-Zeiten vorher prüfen (App: Tide Chart)!'},
       {title:'Schnorcheln Haslewood Island', text:'Wenige Minuten per Kayak oder Mietboot: eines der besten Korallenriffe der Whitsundays mit Nemo-Fischen, Schildkröten und manchmal Mantas.'},
       {title:'Sunset Kayaking', text:'Mietbare Sea-Kayaks meist direkt von der Unterkunft. Paddelt in die kleine Bucht westlich — bei Windstille spiegeln sich die Inseln perfekt im Wasser. Absolute Magie.'},
       {title:'Hook Island Schnorcheln', text:'Hook Island bietet das tiefste und artenreichste Korallenriff der Whitsundays. Tagesausflug per Charter-Boot — lohnt sich für mindestens einen Tag.'},
     ],
-    secret:'🤫 Geheimtipp: Chance Bay auf Whitsunday Island — nur per Boot erreichbar, kaum bekannt, traumhafter Strand mit perfekten Schnorchelbedingungen. Fragt euren Vermieter nach einer Boot-Empfehlung.',
+    secret:'🤫 Geheimtipp: Chance Bay auf Whitsunday Island — nur per Boot erreichbar, kaum bekannt, traumhafter Strand mit perfekten Schnorchelbedingungen. Beim Vermieter nach einer Boot-Empfehlung fragen.',
     food:'🍽️ Kochen in den Whitsunday Apartments! Kauft in Airlie ein: frische Prawns, lokale Avocados, Passionsfrucht. Ein Sunset-Dinner auf der Veranda ist besser als jedes Restaurant.',
     tip:'💡 Riff-sichere Sonnencreme verwenden (no oxybenzone) um die Korallen zu schützen. UV-Index in Queensland ist extrem hoch — Sonnenhut, Sonnencreme, Langarmshirt im Wasser.',
   },
@@ -1040,8 +1096,8 @@ const TIPS = [
       {title:'Schnabeltier-Beobachtung', text:'Eungella ist der beste Ort Australiens für wilde Schnabeltiere! Geht zweimal täglich: früh morgens (6–8 Uhr) und abends (17–18:30 Uhr) zur Viewing Platform am Broken River. Leise sein ist alles!'},
       {title:'Eungella National Park Wanderung', text:'Der Rainforest Circuit (2 Std.) führt durch einen isolierten Regenwald mit eigenen Tier- und Pflanzenarten, die es nirgendwo sonst gibt.'},
       {title:'Finch Hatton Gorge', text:'Nur 25 km entfernt: spektakuläre Schlucht mit Wasserfällen und Swimminghole. Der Weg führt mehrfach durch den Fluss (Schuhe ausziehen!). Absolut lohnenswert.'},
-      {title:'Veranda-Frühstück', text:'Die Veranda eures Resorts bietet einen phantastischen Blick über das Pioneer Valley. Morgengrauen mit Kaffee — eine der ruhigsten Stunden der ganzen Reise.'},
-      {title:'Slow Travel genießen', text:'Eungella ist einer der ruhigsten Orte Queenslands. Kein Touristenrummel, nur Natur. Nutzt den Nachmittag zum Lesen und Nichtstun — ihr habt es verdient!'},
+      {title:'Veranda-Frühstück', text:'Die Veranda des Resorts bietet einen phantastischen Blick über das Pioneer Valley. Morgengrauen mit Kaffee — eine der ruhigsten Stunden der Reise.'},
+      {title:'Slow Travel genießen', text:'Eungella ist einer der ruhigsten Orte Queenslands. Kein Touristenrummel, nur Natur. Den Nachmittag zum Lesen und Entschleunigen nutzen — wohlverdient!'},
     ],
     secret:'🤫 Geheimtipp: Crediton Hall — ein verlassenes historisches Gebäude auf dem Weg nach Eungella. Tolle Fotokulisse, kaum bekannt, historisch interessant.',
     food:'🍽️ Das Restaurant im Broken River Mountain Resort ist die einzige Option weit und breit — aber gut! Probiert das lokale Rindfleisch aus dem Pioneer Valley.',
@@ -1057,7 +1113,7 @@ const TIPS = [
       {title:'West End & Fortitude Valley', text:"Brisbanes hippigste Viertel für Abendessen und Bars. West End: Cafés, Vintage-Läden, multikulturelle Küche. Fortitude Valley: Nightlife bis spät in die Nacht."},
     ],
     secret:'🤫 Geheimtipp: New Farm Park — ein riesiger Rosenpark direkt am Brisbane River (Rosen blühen im Oktober!), fast nur von Einheimischen besucht. Perfekt für ein Picknick am letzten Abend.',
-    food:"🍽️ Gus' Cafe in South Brisbane: Brisbanes legendärstes Frühstücks-Café seit 1976. Abends: Teneriffe Brewing Co. für lokales Craft Beer und Blick auf die Story Bridge.",
+    food:"🍽️ Gus Cafe in South Brisbane: Brisbanes legendärstes Frühstücks-Café seit 1976. Abends: Teneriffe Brewing Co. für lokales Craft Beer und Blick auf die Story Bridge.",
     tip:'💡 City Hopper Fähre — kostenlos! Fährt alle 30 Min über den Brisbane River und verbindet South Bank, CBD, New Farm und Fortitude Valley. Der schönste Weg, die Stadt zu erkunden.',
   },
 ];
@@ -1095,5 +1151,80 @@ function toggleTip(i){
 // INIT
 showTab('tage');
 </script>
+<!-- Edit PIN Overlay -->
+<div id="edit-pin-overlay" style="display:none;position:fixed;inset:0;background:rgba(28,26,22,.72);z-index:500;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)closeEditPin()">
+  <div style="background:#fff;border-radius:16px;padding:28px 22px;max-width:300px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <div style="font-size:1.8rem;margin-bottom:10px">✏️</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:5px">Bearbeitungsmodus</div>
+    <div style="font-size:.8rem;color:var(--fog);margin-bottom:18px">PIN eingeben um Fotos zu bearbeiten</div>
+    <div class="pin-dots" style="margin-bottom:16px">
+      <div class="pin-dot" id="epd0"></div><div class="pin-dot" id="epd1"></div>
+      <div class="pin-dot" id="epd2"></div><div class="pin-dot" id="epd3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="epIn('1')">1</button><button class="pin-key" onclick="epIn('2')">2</button><button class="pin-key" onclick="epIn('3')">3</button>
+      <button class="pin-key" onclick="epIn('4')">4</button><button class="pin-key" onclick="epIn('5')">5</button><button class="pin-key" onclick="epIn('6')">6</button>
+      <button class="pin-key" onclick="epIn('7')">7</button><button class="pin-key" onclick="epIn('8')">8</button><button class="pin-key" onclick="epIn('9')">9</button>
+      <button class="pin-key" style="font-size:.8rem;color:var(--fog)" onclick="epDel()">⌫</button>
+      <button class="pin-key" onclick="epIn('0')">0</button>
+      <button class="pin-key" style="font-size:.75rem;color:var(--fog)" onclick="closeEditPin()">✕</button>
+    </div>
+    <div id="ep-err" style="color:#dc2626;font-size:.77rem;margin-top:8px;min-height:15px"></div>
+  </div>
+</div>
+
+<script>
+// Edit Mode Functions
+function toggleEditMode() {
+  if(editMode) {
+    editMode = false;
+    document.getElementById('edit-toggle-btn').textContent = '✏️ Bearbeiten';
+    document.getElementById('edit-toggle-btn').style.background = '';
+    document.getElementById('tab-kosten').style.display = 'none';
+    document.getElementById('tab-neu').style.display = 'none';
+    // Switch away from kosten tab if currently shown
+    const activeTab = document.querySelector('.tab-btn.active');
+    if(activeTab && activeTab.id === 'tab-kosten') showTab('tage');
+    buildDaySlides();
+    toast('Bearbeitungsmodus deaktiviert.');
+  } else {
+    editPinBuffer = '';
+    updateEpDots();
+    document.getElementById('edit-pin-overlay').style.display = 'flex';
+  }
+}
+function epIn(d) {
+  if(editPinBuffer.length >= 4) return;
+  editPinBuffer += d;
+  updateEpDots();
+  if(editPinBuffer.length === 4) setTimeout(checkEditPin, 150);
+}
+function epDel() { editPinBuffer = editPinBuffer.slice(0,-1); updateEpDots(); }
+function updateEpDots() {
+  for(let i=0;i<4;i++) document.getElementById('epd'+i).classList.toggle('filled', i < editPinBuffer.length);
+}
+function checkEditPin() {
+  if(editPinBuffer === CORRECT_PIN) {
+    document.getElementById('edit-pin-overlay').style.display = 'none';
+    editMode = true;
+    document.getElementById('edit-toggle-btn').textContent = '✏️ Aktiv';
+    document.getElementById('edit-toggle-btn').style.background = 'var(--sunset)';
+    document.getElementById('tab-kosten').style.display = 'block';
+    document.getElementById('tab-neu').style.display = 'block';
+    buildDaySlides();
+    toast('✓ Bearbeitungsmodus aktiv!');
+  } else {
+    document.getElementById('ep-err').textContent = 'Falsche PIN.';
+    editPinBuffer = '';
+    updateEpDots();
+    setTimeout(() => document.getElementById('ep-err').textContent = '', 2000);
+  }
+}
+function closeEditPin() {
+  document.getElementById('edit-pin-overlay').style.display = 'none';
+  editPinBuffer = '';
+}
+</script>
+
 </body>
 </html>
