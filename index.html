@@ -1441,19 +1441,40 @@ function saveApiKey(){
   var k = document.getElementById("apikey-input").value.trim();
   if(!k || k.length < 20){ toast("Bitte gueltigen Key eingeben."); return; }
   _apiKey = k;
+  // Verschluesselt lokal speichern (einfache XOR-Verschluesselung)
+  try{
+    var enc = btoa(k.split("").map(function(c,i){
+      return String.fromCharCode(c.charCodeAt(0) ^ "MReisen2026".charCodeAt(i % 11));
+    }).join(""));
+    localStorage.setItem("_mk", enc);
+  } catch(e){}
   document.getElementById("apikey-overlay").style.display = "none";
   document.getElementById("apikey-input").value = "";
-  toast("API-Key gesetzt — nur fuer diese Sitzung.");
+  toast("API-Key gespeichert!");
 }
 function skipApiKey(){
   document.getElementById("apikey-overlay").style.display = "none";
+}
+function loadApiKey(){
+  try{
+    var enc = localStorage.getItem("_mk");
+    if(!enc) return "";
+    return atob(enc).split("").map(function(c,i){
+      return String.fromCharCode(c.charCodeAt(0) ^ "MReisen2026".charCodeAt(i % 11));
+    }).join("");
+  } catch(e){ return ""; }
+}
+function deleteApiKey(){
+  try{ localStorage.removeItem("_mk"); } catch(e){}
+  _apiKey = "";
+  toast("API-Key geloescht.");
 }
 
 // ── EDIT MODE ─────────────────────────────────────────────────────────────
 function toggleEditMode() {
   if(editMode) {
     editMode = false;
-    _apiKey = ""; // Key aus Speicher loeschen
+    _apiKey = ""; // Key aus Arbeitsspeicher - bleibt verschluesselt in localStorage
     document.getElementById("edit-toggle-btn").textContent = "🔑 Admin";
     document.getElementById("edit-toggle-btn").style.background = "";
     document.getElementById("tab-kosten").style.display = "none";
@@ -1483,7 +1504,10 @@ function checkEditPin(){
     buildDaySlides();
     toast("Admin-Modus aktiv!");
     if(!_apiKey){
-      document.getElementById("apikey-overlay").style.display = "flex";
+      // Versuche gespeicherten Key zu laden
+      var saved = loadApiKey();
+      if(saved){ _apiKey = saved; toast("API-Key geladen."); }
+      else { document.getElementById("apikey-overlay").style.display = "flex"; }
     }
   } else {
     document.getElementById("ep-err").textContent="Falsche PIN.";
@@ -1675,6 +1699,7 @@ showTab('tage');
       <button onclick="saveApiKey()" style="flex:2;padding:10px;background:var(--sunset);border:none;border-radius:8px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;font-size:.88rem;">✓ Speichern</button>
     </div>
     <div style="margin-top:12px;font-size:.7rem;color:var(--fog);text-align:center;">Key erstellen: <strong>console.anthropic.com</strong></div>
+    <div style="margin-top:8px;text-align:center;"><button onclick="deleteApiKey()" style="background:none;border:none;font-size:.7rem;color:#dc2626;cursor:pointer;text-decoration:underline;">Gespeicherten Key loeschen</button></div>
   </div>
 </div>
 </body>
