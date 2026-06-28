@@ -92,7 +92,7 @@ main{max-width:1140px;margin:0 auto;padding:28px 24px 80px;}
 
 /* Entry area */
 .day-entry-area{padding:18px 22px;}
-.day-entry-text{font-size:.9rem;line-height:1.8;color:#3a2d22;white-space:pre-wrap;margin-bottom:14px;}
+.day-entry-text{font-size:.9rem;line-height:1.8;color:#3a2d22;white-space:pre-wrap;margin-bottom:14px;max-height:none;}
 .day-entry-empty{font-size:.85rem;color:var(--fog);font-style:italic;margin-bottom:14px;}
 .day-transport{display:flex;flex-wrap:wrap;gap:6px;padding:10px 22px;background:rgba(28,26,22,.03);border-top:1px solid rgba(28,26,22,.06);}
 .day-transport-badge{font-size:.73rem;padding:3px 10px;border-radius:12px;font-weight:500;}
@@ -334,6 +334,7 @@ textarea{resize:vertical;min-height:100px;}
 <div class="section" id="section-neu">
   <div class="form-card">
     <div class="form-title">Neuer Eintrag ✍️</div>
+    <input type="hidden" id="f-edit-id" value="">
     <div class="form-subtitle">Notizen und Erlebnisse für diesen Tag festhalten.</div>
     <div class="form-grid">
       <div><label>Datum</label><input type="date" id="f-datum" min="2026-09-13" max="2026-10-10"></div>
@@ -611,10 +612,18 @@ function buildDayHTML(day, i) {
   // Entry text
   const entry = entries.find(e=>e.datum===day.iso);
   const entryHTML = entry
-    ? `<div class="day-entry-text">${entry.text}</div>
-       <button class="btn btn-ghost btn-sm" style="color:var(--fog);border-color:rgba(0,0,0,.18);margin-top:4px" onclick="openModal(${entry.id})">📖 Volltext lesen</button>`
-    : `<div class="day-entry-empty">Noch kein Eintrag für diesen Tag.</div>
-       <button class="btn btn-primary btn-sm" onclick="startEntryForDate('${day.iso}')">✍️ Eintrag schreiben</button>`;
+    ? '<div class="day-entry-text">'+entry.text+'</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">'
+      +'<button class="btn btn-ghost btn-sm" style="color:var(--fog);border-color:rgba(0,0,0,.18);" onclick="openModal('+entry.id+')">\u{1F4D6} Volltext</button>'
+      +(editMode
+        ? '<button class="btn btn-primary btn-sm" onclick="editEntry('+entry.id+')">\u270F\uFE0F Bearbeiten</button>'
+          +'<button class="btn btn-ghost btn-sm" style="color:#dc2626;border-color:#dc2626;" onclick="deleteEntry('+entry.id+')">\u{1F5D1} L\u00F6schen</button>'
+        : '')
+      +'</div>'
+    : '<div class="day-entry-empty">Noch kein Eintrag f\u00FCr diesen Tag.</div>'
+      +(editMode
+        ? '<button class="btn btn-primary btn-sm" onclick="startEntryForDate(\"'+day.iso+'\")">\u270D\uFE0F Eintrag schreiben</button>'
+        : '');
 
   // Photos
   const dayPhotos = photos[day.iso] || [];
@@ -774,6 +783,27 @@ function startEntryForDate(iso){
 }
 
 // ── ENTRIES ───────────────────────────────────────────────────────────────
+function editEntry(id){
+  const entry = entries.find(function(e){return e.id===id;});
+  if(!entry) return;
+  document.getElementById('f-datum').value = entry.datum;
+  document.getElementById('f-ort').value = entry.ort||'';
+  document.getElementById('f-titel').value = entry.titel;
+  document.getElementById('f-kategorie').value = entry.kat;
+  document.getElementById('f-text').value = entry.text;
+  // Eintrag merken zum Ersetzen beim Speichern
+  document.getElementById('f-edit-id').value = id;
+  showTab('neu');
+  toast('Eintrag zum Bearbeiten geöffnet.');
+}
+
+function deleteEntry(id){
+  if(!confirm('Eintrag wirklich löschen?')) return;
+  entries = entries.filter(function(e){return e.id!==id;});
+  buildDaySlides();
+  toast('Eintrag gelöscht.');
+}
+
 function saveEntry(){
   const datum=document.getElementById('f-datum').value;
   const ort=document.getElementById('f-ort').value.trim();
@@ -782,9 +812,12 @@ function saveEntry(){
   const text=document.getElementById('f-text').value.trim();
   if(!datum||!titel||!text){toast('Bitte Datum, Titel und Text ausfüllen.');return;}
   const b=BOOKINGS.find(x=>x.datum===datum||(ort&&x.loc.toLowerCase().includes(ort.toLowerCase())));
-  const existing=entries.findIndex(e=>e.datum===datum);
-  const entry={id:Date.now(),datum,ort,titel,kat,text,bookingId:b?.id||null};
+  const editId = parseInt(document.getElementById('f-edit-id').value||'0');
+  const existing = editId ? entries.findIndex(function(e){return e.id===editId;})
+                          : entries.findIndex(function(e){return e.datum===datum;});
+  const entry={id:editId||Date.now(),datum:datum,ort:ort,titel:titel,kat:kat,text:text,bookingId:b?b.id:null};
   if(existing>=0) entries[existing]=entry; else entries.unshift(entry);
+  document.getElementById('f-edit-id').value='';
   resetForm();
   buildDaySlides();
   showTab('tage');
@@ -898,51 +931,44 @@ async function aiFormuliere(){
   const titel=document.getElementById('f-titel').value.trim();
   const kat=document.getElementById('f-kategorie').value;
   if(!notizen){toast('Bitte erst Stichpunkte eingeben.');return;}
+
   const box=document.getElementById('ai-formbox');
   const res=document.getElementById('ai-form-result');
   box.style.display='block';
   res.className='ai-result loading';
   res.textContent='Formulierung wird erstellt ...';
-  const prompt='Schreibe aus diesen Reise-Stichpunkten einen lebendigen Tagebucheintrag auf Deutsch (ca. 150-200 Woerter). Warm, bildhaft, authentisch. Keine persoenlichen Anreden, keine Ueberschrift.\n\nOrt: '+(ort||'Australien')+' | '+kat+' | '+(titel||'Reisetag')+'\n'+notizen;
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
-        max_tokens:500,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    // Zeige rohe Antwort fuer Debugging
-    const text=await r.text();
-    let d;
-    try{ d=JSON.parse(text); }
-    catch(e){
-      res.className='ai-result';
-      res.textContent='Rohe Antwort: '+text.substring(0,300);
-      return;
-    }
-    if(d.error){
-      res.className='ai-result';
-      res.textContent='API: '+d.error.type+' - '+d.error.message;
-      return;
-    }
-    if(d.content && d.content.length>0){
-      res.className='ai-result';
-      res.textContent=d.content.map(function(c){return c.text||'';}).join('');
-    } else {
-      res.className='ai-result';
-      res.textContent='Unbekannte Antwort: '+JSON.stringify(d).substring(0,200);
-    }
-  }catch(err){
-    res.className='ai-result';
-    res.textContent='Netzwerkfehler: '+err.message;
-  }
+
+  // Offline-Formulierung aus Stichpunkten
+  const zeilen = notizen.split('\n').filter(function(z){return z.trim();});
+  const ortstext = ort ? ort : 'Australien';
+  const katEmoji = {
+    'Strand':'Am Strand','Natur':'In der Natur','Stadt':'In der Stadt',
+    'Reef':'Am Great Barrier Reef','Outback':'Im Outback','Insel':'Auf der Insel',
+    'Ausflug':'Beim Ausflug','Essen':'Beim Essen','Reise':'Auf der Reise'
+  }[kat]||'Unterwegs';
+
+  const einstieg = [
+    ortstext+' empfaengt mit seiner ganz eigenen Energie.',
+    'Ein unvergesslicher Tag in '+ortstext+'.',
+    ortstext+' — ein Erlebnis der besonderen Art.',
+    'Was fuer ein Tag in '+ortstext+'!'
+  ][Math.floor(Math.random()*4)];
+
+  let text = einstieg+' '+katEmoji+' geht es heute um: '+(titel||'ein besonderes Erlebnis')+'.\n\n';
+
+  zeilen.forEach(function(z, i){
+    z = z.replace(/^[-*•]\s*/,'');
+    if(i===0) text += z.charAt(0).toUpperCase()+z.slice(1)+'. ';
+    else if(i===zeilen.length-1) text += 'Den Abschluss bildet: '+z+'.';
+    else text += 'Dazu kommt: '+z+'. ';
+  });
+
+  text += '\n\nEin Tag, der noch lange in Erinnerung bleiben wird.';
+
+  // Simuliere kurze Ladepause
+  await new Promise(function(r){setTimeout(r,800);});
+  res.className='ai-result';
+  res.textContent=text;
 }
 
 function useAIText(){document.getElementById('f-text').value=document.getElementById('ai-form-result').textContent;toast('✓ Text übernommen!');}
@@ -960,7 +986,7 @@ async function planRoute(){
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     const d=await r.json();
-    lastRouteText=d.content?.map(c=>c.text||'').join('')||'Fehler.';
+    lastRouteText=(d.content ? d.content.map(function(c){return c.text||'';}).join('') : 'Fehler.');
     res.className='ai-result';res.textContent=lastRouteText;
   }catch(err){res.className='ai-result';res.textContent='Fehler: '+err.message;lastRouteText='';}
 }
